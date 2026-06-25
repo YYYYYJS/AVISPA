@@ -1,0 +1,151 @@
+% ==========================================================
+% SPAKA local authentication model
+% Two independent PUF challenges:
+%   R1 = PUF(C1), R2 = PUF(C2)
+%   P1 = H(IDV.R1.Tj), P2 = H(IDV.R2.Tj)
+%
+% KPUF is a symbolic abstraction of:
+%   - CV-side physical SRAM-PUF evaluation;
+%   - ATA-side expected-response reconstruction from enrollment data.
+% It is NOT an actual shared symmetric key in the real protocol.
+% ==========================================================
+
+role vehicle(V, ATA : agent,
+             H : hash_func,
+             KVA, KPUF : symmetric_key,
+             IDV : message,
+             SND, RCV : channel(dy))
+played_by V def=
+
+local State : nat,
+      Tcv, Tj, C1, C2,
+      R1CV, R2CV,
+      P1, P2,
+      SKnew : message
+
+init State := 0
+
+transition
+
+  % Step L1: CV initiates a fresh local-authentication session.
+  1. State = 0 /\ RCV(start) =|>
+     State' := 1 /\
+     Tcv' := new() /\
+     SND({IDV.Tcv'.V}_KVA)
+
+  % Step L4: CV receives two fresh challenges forwarded by ATA.
+  % Tcv is included to bind the response to the current session.
+  2. State = 1 /\ RCV({C1.C2.Tj.Tcv}_KVA) =|>
+     State' := 2 /\
+     Tj' := Tj /\
+     R1CV' := H(C1.KPUF) /\
+     R2CV' := H(C2.KPUF) /\
+     P1' := H(IDV.R1CV'.Tj) /\
+     P2' := H(IDV.R2CV'.Tj) /\
+     SKnew' := H(P1'.P2'.Tcv) /\
+     secret(R1CV'.R2CV', sec_puf_response, {V, ATA}) /\
+     secret(SKnew', sec_session_key, {V, ATA}) /\
+     request(V, ATA, ata_v_challenge, C1.C2.Tcv.Tj) /\
+     witness(V, ATA, v_ata_puf_auth, P1'.P2'.Tcv.Tj) /\
+     SND({IDV.P1'.P2'.Tcv.Tj}_KVA)
+
+  % Step L6: CV accepts the final confirmation only if it is
+  % bound to P1, P2, Tcv, and Tj.
+  3. State = 2 /\ RCV({H(IDV.P1.P2.Tcv.Tj).Tcv.Tj}_KVA) =|>
+     State' := 3 /\
+     request(V, ATA, ata_v_key_confirm,
+             H(IDV.P1.P2.Tcv.Tj).SKnew.Tcv.Tj)
+
+end role
+
+role ata(V, ATA : agent,
+         H : hash_func,
+         KVA, KPUF : symmetric_key,
+         IDV : message,
+         SND, RCV : channel(dy))
+played_by ATA def=
+
+local State : nat,
+      Tcv, Tj, C1, C2,
+      R1EXP, R2EXP,
+      P1, P2,
+      Auth, SKnew : message
+
+init State := 0
+
+transition
+
+  % Step L2: ATA receives the local-authentication request.
+  1. State = 0 /\
+     RCV({IDV.Tcv.V}_KVA) =|>
+     State' := 1 /\
+     Tcv' := Tcv /\
+     Tj' := new() /\
+     C1' := new() /\
+     C2' := new() /\
+     R1EXP' := H(C1'.KPUF) /\
+     R2EXP' := H(C2'.KPUF) /\
+     P1' := H(IDV.R1EXP'.Tj') /\
+     P2' := H(IDV.R2EXP'.Tj') /\
+     witness(ATA, V, ata_v_challenge, C1'.C2'.Tcv'.Tj') /\
+     SND({C1'.C2'.Tj'.Tcv'}_KVA)
+
+  % Step L5: Exact pattern matching of P1 and P2 verifies
+  % both independently challenged PUF responses.
+  2. State = 1 /\
+     RCV({IDV.P1.P2.Tcv.Tj}_KVA) =|>
+     State' := 2 /\
+     Auth' := H(IDV.P1.P2.Tcv.Tj) /\
+     SKnew' := H(P1.P2.Tcv) /\
+     secret(R1EXP.R2EXP, sec_puf_response, {V, ATA}) /\
+     secret(SKnew', sec_session_key, {V, ATA}) /\
+     request(ATA, V, v_ata_puf_auth, P1.P2.Tcv.Tj) /\
+     witness(ATA, V, ata_v_key_confirm,
+             Auth'.SKnew'.Tcv.Tj) /\
+     SND({Auth'.Tcv.Tj}_KVA)
+
+end role
+
+role session(V, ATA : agent,
+             H : hash_func,
+             KVA, KPUF : symmetric_key,
+             IDV : message) def=
+
+local SNDV, RCVV,
+      SNDA, RCVA : channel(dy)
+
+composition
+  vehicle(V, ATA, H, KVA, KPUF, IDV, SNDV, RCVV)
+  /\ ata(V, ATA, H, KVA, KPUF, IDV, SNDA, RCVA)
+
+end role
+
+role environment() def=
+
+const v, ata, intruder : agent,
+      h : hash_func,
+      kva, kpuf : symmetric_key,
+      idv : message,
+      sec_session_key,
+      sec_puf_response,
+      ata_v_challenge,
+      v_ata_puf_auth,
+      ata_v_key_confirm : protocol_id
+
+intruder_knowledge = {intruder, v, ata, h, idv}
+
+composition
+  session(v, ata, h, kva, kpuf, idv)
+  /\ session(v, ata, h, kva, kpuf, idv)
+
+end role
+
+goal
+  secrecy_of sec_session_key
+  secrecy_of sec_puf_response
+  authentication_on ata_v_challenge
+  authentication_on v_ata_puf_auth
+  authentication_on ata_v_key_confirm
+end goal
+
+environment()

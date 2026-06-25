@@ -1,0 +1,209 @@
+%% IF specification of spaka_cross_region.hlpsl
+
+section signature:
+
+state_ataj: agent * agent * agent * hash_func * symmetric_key * symmetric_key * message * nat * message * message * message * message * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
+state_atai: agent * agent * agent * hash_func * symmetric_key * symmetric_key * message * nat * message * message * message * message * message * message * message * set(agent) * nat -> fact
+state_cv: agent * agent * agent * hash_func * symmetric_key * symmetric_key * message * nat * message * message * message * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
+
+
+section types:
+
+ataj_cv_key_confirm, cv_ataj_puf_auth, ataj_cv_challenge, sec_session_key, sec_puf_response: protocol_id
+set_150, set_149, set_147, set_145, set_144, set_134, set_133, set_129, set_115, set_114: set
+State, 4, 9, 8, 7, 3, 5, SID, 2, 1, 0, Dummy_State, SID2, SID1: nat
+Set_81, Set_80, Set_57, Dummy_Set_81, Dummy_Set_80, Set_32, Dummy_Set_57, Set_29, Dummy_Set_32, Dummy_Set_29, ASGoal: set(agent)
+Tcv, Tj, C1, C2, R1EXP, R2EXP, P1, P2, Auth, SKnew, IDV, Dummy_Auth, Dummy_R2EXP, Dummy_R1EXP, Dummy_C2, Dummy_C1, start, Dummy_SKnew, Dummy_P2, Dummy_P1, Dummy_R2CV, Dummy_R1CV, Dummy_Tj, R1CV, Dummy_Tcv, R2CV, dummy_msg, MGoal, idv: message
+KIJ, KPUF, KCVAI, kcvai, kij, kpuf: symmetric_key
+H, h: hash_func
+atai1, ataj1, idintruder, CV, ATAi, ATAj, A2Goal, A1Goal, i, cv1: agent
+
+
+section inits:
+
+initial_state init1 := 
+ iknows(start).
+ iknows(idintruder).
+ iknows(cv1).
+ iknows(atai1).
+ iknows(ataj1).
+ iknows(h).
+ iknows(idv).
+ iknows(i).
+ state_cv(cv1,atai1,ataj1,h,kcvai,kpuf,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_114,set_115,3).
+ state_atai(atai1,cv1,ataj1,h,kcvai,kij,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_129,4).
+ state_ataj(ataj1,cv1,atai1,h,kij,kpuf,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_133,set_134,5).
+ state_cv(cv1,atai1,ataj1,h,kcvai,kpuf,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_144,set_145,7).
+ state_atai(atai1,cv1,ataj1,h,kcvai,kij,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_147,8).
+ state_ataj(ataj1,cv1,atai1,h,kij,kpuf,idv,0,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_149,set_150,9)
+
+
+section rules:
+
+step step_0 (CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,Dummy_Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID,Tcv) :=
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,0,Dummy_Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID).
+ iknows(start)
+=[exists Tcv]=>
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,1,Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID).
+ iknows(scrypt(KCVAI,pair(IDV,pair(Tcv,CV))))
+
+step step_1 (CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,Tcv,Dummy_Tj,C1,C2,Dummy_R1CV,Dummy_R2CV,Dummy_P1,Dummy_P2,Dummy_SKnew,Dummy_Set_29,Dummy_Set_32,SID) :=
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,1,Tcv,Dummy_Tj,C1,C2,Dummy_R1CV,Dummy_R2CV,Dummy_P1,Dummy_P2,Dummy_SKnew,Dummy_Set_29,Dummy_Set_32,SID).
+ iknows(scrypt(KCVAI,pair(C1,pair(C2,pair(Dummy_Tj,Tcv)))))
+ =>
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,2,Tcv,Dummy_Tj,C1,C2,apply(H,pair(C1,KPUF)),apply(H,pair(C2,KPUF)),apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Dummy_Tj))),apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Dummy_Tj))),apply(H,pair(apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Dummy_Tj))),pair(apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Dummy_Tj))),Tcv))),Dummy_Set_29,Dummy_Set_32,SID).
+ secret(pair(apply(H,pair(C1,KPUF)),apply(H,pair(C2,KPUF))),sec_puf_response,Dummy_Set_29).
+ secret(apply(H,pair(apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Dummy_Tj))),pair(apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Dummy_Tj))),Tcv))),sec_session_key,Dummy_Set_32).
+ request(CV,ATAj,ataj_cv_challenge,pair(C1,pair(C2,pair(Tcv,Dummy_Tj))),SID).
+ witness(CV,ATAj,cv_ataj_puf_auth,pair(apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Dummy_Tj))),pair(apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Dummy_Tj))),pair(Tcv,Dummy_Tj)))).
+ iknows(scrypt(KCVAI,pair(IDV,pair(apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Dummy_Tj))),pair(apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Dummy_Tj))),pair(Tcv,Dummy_Tj)))))).
+ contains(CV,Dummy_Set_29).
+ contains(ATAj,Dummy_Set_29).
+ contains(CV,Dummy_Set_32).
+ contains(ATAi,Dummy_Set_32).
+ contains(ATAj,Dummy_Set_32)
+
+step step_2 (CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID) :=
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,2,Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID).
+ iknows(scrypt(KCVAI,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(Tcv,Tj))))
+ =>
+ state_cv(CV,ATAi,ATAj,H,KCVAI,KPUF,IDV,3,Tcv,Tj,C1,C2,R1CV,R2CV,P1,P2,SKnew,Set_29,Set_32,SID).
+ request(CV,ATAj,ataj_cv_key_confirm,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(SKnew,pair(Tcv,Tj))),SID)
+
+step step_3 (ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,Dummy_Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID) :=
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,0,Dummy_Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KCVAI,pair(IDV,pair(Dummy_Tcv,CV))))
+ =>
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,1,Dummy_Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KIJ,pair(IDV,pair(Dummy_Tcv,ATAi))))
+
+step step_4 (ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,Tcv,Dummy_Tj,C1,C2,P1,P2,SKnew,Set_57,SID) :=
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,1,Tcv,Dummy_Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KIJ,pair(IDV,pair(C1,pair(C2,Dummy_Tj)))))
+ =>
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,2,Tcv,Dummy_Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KCVAI,pair(C1,pair(C2,pair(Dummy_Tj,Tcv)))))
+
+step step_5 (ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,Tcv,Tj,C1,C2,P1,P2,Dummy_SKnew,Dummy_Set_57,SID) :=
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,2,Tcv,Tj,C1,C2,P1,P2,Dummy_SKnew,Dummy_Set_57,SID).
+ iknows(scrypt(KCVAI,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))))
+ =>
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,3,Tcv,Tj,C1,C2,P1,P2,apply(H,pair(P1,pair(P2,Tcv))),Dummy_Set_57,SID).
+ secret(apply(H,pair(P1,pair(P2,Tcv))),sec_session_key,Dummy_Set_57).
+ iknows(scrypt(KIJ,pair(IDV,pair(P1,pair(P2,pair(Tcv,pair(Tj,ATAi))))))).
+ contains(CV,Dummy_Set_57).
+ contains(ATAi,Dummy_Set_57).
+ contains(ATAj,Dummy_Set_57)
+
+step step_6 (ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID) :=
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,3,Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KIJ,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(Tcv,Tj))))
+ =>
+ state_atai(ATAi,CV,ATAj,H,KCVAI,KIJ,IDV,4,Tcv,Tj,C1,C2,P1,P2,SKnew,Set_57,SID).
+ iknows(scrypt(KCVAI,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(Tcv,Tj))))
+
+step step_7 (ATAj,CV,ATAi,H,KIJ,KPUF,IDV,Dummy_Tcv,Dummy_Tj,Dummy_C1,Dummy_C2,Dummy_R1EXP,Dummy_R2EXP,Dummy_P1,Dummy_P2,Auth,SKnew,Set_80,Set_81,SID,Tj,C1,C2) :=
+ state_ataj(ATAj,CV,ATAi,H,KIJ,KPUF,IDV,0,Dummy_Tcv,Dummy_Tj,Dummy_C1,Dummy_C2,Dummy_R1EXP,Dummy_R2EXP,Dummy_P1,Dummy_P2,Auth,SKnew,Set_80,Set_81,SID).
+ iknows(scrypt(KIJ,pair(IDV,pair(Dummy_Tcv,ATAi))))
+=[exists C2,C1,Tj]=>
+ state_ataj(ATAj,CV,ATAi,H,KIJ,KPUF,IDV,1,Dummy_Tcv,Tj,C1,C2,apply(H,pair(C1,KPUF)),apply(H,pair(C2,KPUF)),apply(H,pair(IDV,pair(apply(H,pair(C1,KPUF)),Tj))),apply(H,pair(IDV,pair(apply(H,pair(C2,KPUF)),Tj))),Auth,SKnew,Set_80,Set_81,SID).
+ witness(ATAj,CV,ataj_cv_challenge,pair(C1,pair(C2,pair(Dummy_Tcv,Tj)))).
+ iknows(scrypt(KIJ,pair(IDV,pair(C1,pair(C2,Tj)))))
+
+step step_8 (ATAj,CV,ATAi,H,KIJ,KPUF,IDV,Tcv,Tj,C1,C2,R1EXP,R2EXP,P1,P2,Dummy_Auth,Dummy_SKnew,Dummy_Set_80,Dummy_Set_81,SID) :=
+ state_ataj(ATAj,CV,ATAi,H,KIJ,KPUF,IDV,1,Tcv,Tj,C1,C2,R1EXP,R2EXP,P1,P2,Dummy_Auth,Dummy_SKnew,Dummy_Set_80,Dummy_Set_81,SID).
+ iknows(scrypt(KIJ,pair(IDV,pair(P1,pair(P2,pair(Tcv,pair(Tj,ATAi)))))))
+ =>
+ state_ataj(ATAj,CV,ATAi,H,KIJ,KPUF,IDV,2,Tcv,Tj,C1,C2,R1EXP,R2EXP,P1,P2,apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),apply(H,pair(P1,pair(P2,Tcv))),Dummy_Set_80,Dummy_Set_81,SID).
+ secret(pair(R1EXP,R2EXP),sec_puf_response,Dummy_Set_80).
+ secret(apply(H,pair(P1,pair(P2,Tcv))),sec_session_key,Dummy_Set_81).
+ request(ATAj,CV,cv_ataj_puf_auth,pair(P1,pair(P2,pair(Tcv,Tj))),SID).
+ witness(ATAj,CV,ataj_cv_key_confirm,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(apply(H,pair(P1,pair(P2,Tcv))),pair(Tcv,Tj)))).
+ iknows(scrypt(KIJ,pair(apply(H,pair(IDV,pair(P1,pair(P2,pair(Tcv,Tj))))),pair(Tcv,Tj)))).
+ contains(CV,Dummy_Set_80).
+ contains(ATAj,Dummy_Set_80).
+ contains(CV,Dummy_Set_81).
+ contains(ATAi,Dummy_Set_81).
+ contains(ATAj,Dummy_Set_81)
+
+
+section properties:
+
+property secrecy_of_sec_session_key (MGoal,ASGoal) :=
+ [] ((secret(MGoal,sec_session_key,ASGoal) /\ iknows(MGoal))
+     => contains(i,ASGoal))
+
+property secrecy_of_sec_puf_response (MGoal,ASGoal) :=
+ [] ((secret(MGoal,sec_puf_response,ASGoal) /\ iknows(MGoal))
+     => contains(i,ASGoal))
+
+property authentication_on_ataj_cv_challenge (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,ataj_cv_challenge,MGoal))
+     /\ ((request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+property authentication_on_cv_ataj_puf_auth (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,cv_ataj_puf_auth,MGoal))
+     /\ ((request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+property authentication_on_ataj_cv_key_confirm (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,ataj_cv_key_confirm,MGoal))
+     /\ ((request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+
+section attack_states:
+
+attack_state secrecy_of_sec_session_key (MGoal,ASGoal) :=
+ iknows(MGoal).
+ secret(MGoal,sec_session_key,ASGoal) &
+ not(contains(i,ASGoal))
+
+attack_state secrecy_of_sec_puf_response (MGoal,ASGoal) :=
+ iknows(MGoal).
+ secret(MGoal,sec_puf_response,ASGoal) &
+ not(contains(i,ASGoal))
+
+attack_state authentication_on_ataj_cv_challenge (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,ataj_cv_challenge,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_ataj_cv_challenge (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID1).
+ request(A1Goal,A2Goal,ataj_cv_challenge,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+
+attack_state authentication_on_cv_ataj_puf_auth (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,cv_ataj_puf_auth,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_cv_ataj_puf_auth (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID1).
+ request(A1Goal,A2Goal,cv_ataj_puf_auth,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+
+attack_state authentication_on_ataj_cv_key_confirm (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,ataj_cv_key_confirm,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_ataj_cv_key_confirm (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID1).
+ request(A1Goal,A2Goal,ataj_cv_key_confirm,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+

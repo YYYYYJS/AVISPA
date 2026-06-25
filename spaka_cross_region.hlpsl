@@ -1,0 +1,222 @@
+% ==========================================================
+% SPAKA cross-regional authentication model
+%
+% Message flow:
+%  1. CV   -> ATAi : {IDV, Tcv, CV}_KCVAI
+%  2. ATAi -> ATAj : {IDV, Tcv, ATAi}_KIJ
+%  3. ATAj -> ATAi : {IDV, C1, C2, Tj}_KIJ
+%  4. ATAi -> CV   : {C1, C2, Tj, Tcv}_KCVAI
+%  5. CV   -> ATAi : {IDV, P1, P2, Tcv, Tj}_KCVAI
+%  6. ATAi -> ATAj : {IDV, P1, P2, Tcv, Tj, ATAi}_KIJ
+%  7. ATAj -> ATAi : {Auth, Tcv, Tj}_KIJ
+%  8. ATAi -> CV   : {Auth, Tcv, Tj}_KCVAI
+%
+% PUF abstraction:
+%   CV:   R1CV  = H(C1.KPUF), R2CV  = H(C2.KPUF)
+%   ATAj: R1EXP = H(C1.KPUF), R2EXP = H(C2.KPUF)
+%
+% KPUF represents the device-bound PUF state / enrolled
+% reconstruction relation. ATAi and the intruder do not know it.
+% ==========================================================
+
+role cv(CV, ATAi, ATAj : agent,
+         H : hash_func,
+         KCVAI, KPUF : symmetric_key,
+         IDV : message,
+         SND, RCV : channel(dy))
+played_by CV def=
+
+local State : nat,
+      Tcv, Tj, C1, C2,
+      R1CV, R2CV,
+      P1, P2,
+      SKnew : message
+
+init State := 0
+
+transition
+
+  % Step 1: CV requests cross-regional authentication from ATAi.
+  1. State = 0 /\ RCV(start) =|>
+     State' := 1 /\
+     Tcv' := new() /\
+     SND({IDV.Tcv'.CV}_KCVAI)
+
+  % Step 4: CV receives the two fresh challenges relayed by ATAi.
+  % The received Tcv must match the fresh current-session value.
+  2. State = 1 /\ RCV({C1.C2.Tj.Tcv}_KCVAI) =|>
+     State' := 2 /\
+     Tj' := Tj /\
+     R1CV' := H(C1.KPUF) /\
+     R2CV' := H(C2.KPUF) /\
+     P1' := H(IDV.R1CV'.Tj) /\
+     P2' := H(IDV.R2CV'.Tj) /\
+     SKnew' := H(P1'.P2'.Tcv) /\
+     secret(R1CV'.R2CV', sec_puf_response, {CV, ATAj}) /\
+     secret(SKnew', sec_session_key, {CV, ATAi, ATAj}) /\
+     request(CV, ATAj, ataj_cv_challenge,
+             C1.C2.Tcv.Tj) /\
+     witness(CV, ATAj, cv_ataj_puf_auth,
+             P1'.P2'.Tcv.Tj) /\
+     SND({IDV.P1'.P2'.Tcv.Tj}_KCVAI)
+
+  % Step 8: CV accepts confirmation only if the final authenticator
+  % binds both proof values and both freshness values.
+  3. State = 2 /\ RCV({H(IDV.P1.P2.Tcv.Tj).Tcv.Tj}_KCVAI) =|>
+     State' := 3 /\
+     request(CV, ATAj, ataj_cv_key_confirm,
+             H(IDV.P1.P2.Tcv.Tj).SKnew.Tcv.Tj)
+
+end role
+
+role atai(CV, ATAi, ATAj : agent,
+          H : hash_func,
+          KCVAI, KIJ : symmetric_key,
+          IDV : message,
+          SND, RCV : channel(dy))
+played_by ATAi def=
+
+local State : nat,
+      Tcv, Tj, C1, C2,
+      P1, P2,
+      SKnew : message
+
+init State := 0
+
+transition
+
+  % Step 1 -> Step 2: forward CV's request to ATAj.
+  1. State = 0 /\
+     RCV({IDV.Tcv.CV}_KCVAI) =|>
+     State' := 1 /\
+     Tcv' := Tcv /\
+     SND({IDV.Tcv'.ATAi}_KIJ)
+
+  % Step 3 -> Step 4: relay ATAj's two challenges to CV.
+  2. State = 1 /\
+     RCV({IDV.C1.C2.Tj}_KIJ) =|>
+     State' := 2 /\
+     Tj' := Tj /\
+     SND({C1.C2.Tj'.Tcv}_KCVAI)
+
+  % Step 5 -> Step 6: relay the CV's two proof values to ATAj.
+  % ATAi can derive the same updated key only after obtaining
+  % both P1 and P2 from the protected CV-ATAi channel.
+  3. State = 2 /\
+     RCV({IDV.P1.P2.Tcv.Tj}_KCVAI) =|>
+     State' := 3 /\
+     SKnew' := H(P1.P2.Tcv) /\
+     secret(SKnew', sec_session_key, {CV, ATAi, ATAj}) /\
+     SND({IDV.P1.P2.Tcv.Tj.ATAi}_KIJ)
+
+  % Step 7 -> Step 8: forward ATAj's authenticated confirmation.
+  4. State = 3 /\
+     RCV({H(IDV.P1.P2.Tcv.Tj).Tcv.Tj}_KIJ) =|>
+     State' := 4 /\
+     SND({H(IDV.P1.P2.Tcv.Tj).Tcv.Tj}_KCVAI)
+
+end role
+
+role ataj(CV, ATAi, ATAj : agent,
+          H : hash_func,
+          KIJ, KPUF : symmetric_key,
+          IDV : message,
+          SND, RCV : channel(dy))
+played_by ATAj def=
+
+local State : nat,
+      Tcv, Tj, C1, C2,
+      R1EXP, R2EXP,
+      P1, P2,
+      Auth, SKnew : message
+
+init State := 0
+
+transition
+
+  % Step 2: ATAj receives ATAi's forwarding request.
+  % It generates two independent challenges C1 and C2.
+  1. State = 0 /\
+     RCV({IDV.Tcv.ATAi}_KIJ) =|>
+     State' := 1 /\
+     Tcv' := Tcv /\
+     Tj' := new() /\
+     C1' := new() /\
+     C2' := new() /\
+     R1EXP' := H(C1'.KPUF) /\
+     R2EXP' := H(C2'.KPUF) /\
+     P1' := H(IDV.R1EXP'.Tj') /\
+     P2' := H(IDV.R2EXP'.Tj') /\
+     witness(ATAj, CV, ataj_cv_challenge,
+             C1'.C2'.Tcv'.Tj') /\
+     SND({IDV.C1'.C2'.Tj'}_KIJ)
+
+  % Step 6: ATAj verifies P1 and P2 by exact matching against
+  % its own independently reconstructed expected responses.
+  2. State = 1 /\
+     RCV({IDV.P1.P2.Tcv.Tj.ATAi}_KIJ) =|>
+     State' := 2 /\
+     Auth' := H(IDV.P1.P2.Tcv.Tj) /\
+     SKnew' := H(P1.P2.Tcv) /\
+     secret(R1EXP.R2EXP, sec_puf_response, {CV, ATAj}) /\
+     secret(SKnew', sec_session_key, {CV, ATAi, ATAj}) /\
+     request(ATAj, CV, cv_ataj_puf_auth,
+             P1.P2.Tcv.Tj) /\
+     witness(ATAj, CV, ataj_cv_key_confirm,
+             Auth'.SKnew'.Tcv.Tj) /\
+     SND({Auth'.Tcv.Tj}_KIJ)
+
+end role
+
+role session(CV, ATAi, ATAj : agent,
+             H : hash_func,
+             KCVAI, KIJ, KPUF : symmetric_key,
+             IDV : message) def=
+
+local SNDCV, RCVCV,
+      SNDAi, RCVAi,
+      SNDAj, RCVAj : channel(dy)
+
+composition
+  cv(CV, ATAi, ATAj, H, KCVAI, KPUF,
+     IDV, SNDCV, RCVCV)
+  /\ atai(CV, ATAi, ATAj, H, KCVAI, KIJ,
+          IDV, SNDAi, RCVAi)
+  /\ ataj(CV, ATAi, ATAj, H, KIJ, KPUF,
+          IDV, SNDAj, RCVAj)
+
+end role
+
+role environment() def=
+
+const cv1, atai1, ataj1, intruder : agent,
+      h : hash_func,
+      kcvai, kij, kpuf : symmetric_key,
+      idv : message,
+      sec_session_key,
+      sec_puf_response,
+      ataj_cv_challenge,
+      cv_ataj_puf_auth,
+      ataj_cv_key_confirm : protocol_id
+
+% The Dolev-Yao adversary knows identities, the public hash function,
+% and the vehicle identifier, but not KCVAI, KIJ, or KPUF.
+intruder_knowledge = {intruder, cv1, atai1, ataj1, h, idv}
+
+% Two concurrent honest sessions are included to test replay and
+% interleaving attempts in a bounded-session setting.
+composition
+  session(cv1, atai1, ataj1, h, kcvai, kij, kpuf, idv)
+  /\ session(cv1, atai1, ataj1, h, kcvai, kij, kpuf, idv)
+
+end role
+
+goal
+  secrecy_of sec_session_key
+  secrecy_of sec_puf_response
+  authentication_on ataj_cv_challenge
+  authentication_on cv_ataj_puf_auth
+  authentication_on ataj_cv_key_confirm
+end goal
+
+environment()
