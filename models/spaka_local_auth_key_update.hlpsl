@@ -1,0 +1,202 @@
+% ==========================================================
+% SPAKA local authentication and dynamic key-update model
+%
+% Roles:
+%   V     - enrolled vehicle
+%   ATAj  - home ATA
+%
+% Abstractions:
+%   puf(PUFSeed, C) represents the symbolic SRAM-PUF response
+%   xor(N, R)       represents the manuscript's hiding wrapper
+%   h(...)          represents the one-way hash function
+%
+% Only V and ATAj know PUFSeed.
+% ==========================================================
+
+role local_v(
+             V, ATAj : agent,
+             H       : hash_func,
+             Mask    : hash_func,
+             PUF     : hash_func,
+             PUFSeed : text,
+             SK_old  : message,
+             T       : text,
+             IDV     : message,
+             SND, RCV : channel(dy))
+played_by V def=
+
+  local State : nat,
+        T0, T1, T2, Tnew, Tack : text,
+        Ci, Ci_next,
+        Ns_prime, Nd_prime,
+        Ri_prime, Ri_next,
+        Cnew, Rnew,
+        Ms, Md,
+        SK_local, SK_new,
+        Hup : message
+
+  init State := 0
+
+  transition
+
+    % M1: V -> ATAj : { IDV, req, t0 }
+    1. State = 0 /\ RCV(start) =|>
+       State' := 1 /\
+       T0' := new() /\
+       SND(IDV.req.T0')
+
+    % M2: ATAj -> V : { Ci, Ms, Auths, t1 }
+    % The pattern below binds the hidden Ns component carried by xor(...).
+    2. State = 1 /\
+       RCV(Ci'.Mask(Ns_prime, PUF(PUFSeed, Ci')).H(Mask(Ns_prime, PUF(PUFSeed, Ci')).PUF(PUFSeed, Ci').T1').T1') =|>
+       State' := 2 /\
+       Ri_prime' := PUF(PUFSeed, Ci') /\
+       Nd_prime' := new() /\
+       Ci_next' := new() /\
+       T2' := new() /\
+       Ri_next' := PUF(PUFSeed, Ci_next') /\
+       Ms' := Mask(Ns_prime, Ri_prime') /\
+       Md' := Mask(Nd_prime', Ri_next') /\
+       SK_local' := H(Ns_prime.Nd_prime'.Ri_prime'.Ri_next'.T2') /\
+       SND(Ci_next'.Md'.H(Md'.Ri_next'.T2').T2') /\
+       witness(V, ATAj, local_vehicle_auth, Ci_next'.T2') /\
+       request(V, ATAj, local_ataj_auth, Ci'.T1') /\
+       secret(SK_local', sec_local_key, {V, ATAj})
+
+    % M3: ATAj -> V acceptance is modeled by the exact Authd pattern.
+    % After successful local authentication, the vehicle starts key update.
+    3. State = 2 =|>
+       State' := 3 /\
+       Cnew' := new() /\
+       Tnew' := new() /\
+       Rnew' := PUF(PUFSeed, Cnew') /\
+       SK_new' := H(SK_old.Rnew'.T.Tnew') /\
+       Hup' := H(SK_old.IDV.Cnew'.Rnew'.T.Tnew') /\
+       SND(IDV.Tnew'.Cnew'.Hup') /\
+       witness(V, ATAj, local_key_update_request, IDV.Cnew'.Tnew')
+
+    % Key-update acknowledgement: ATAj -> V : { tack, Hack }
+    4. State = 3 /\
+       RCV(Tack'.H(SK_new.IDV.T.Tnew.Tack'.ack)) =|>
+       State' := 4 /\
+       request(V, ATAj, local_key_update_ack, Tack'.Tnew) /\
+       secret(SK_new, sec_updated_key, {V, ATAj})
+
+end role
+
+
+role local_ataj(
+                V, ATAj : agent,
+                H       : hash_func,
+                Mask    : hash_func,
+                PUF     : hash_func,
+                PUFSeed : text,
+                SK_old  : message,
+                T       : text,
+                IDV     : message,
+                SND, RCV : channel(dy))
+played_by ATAj def=
+
+  local State : nat,
+        T0, T1, T2, Tnew, Tack : text,
+        Ci, Ci_next,
+        Ns, Nd_prime,
+        Ri_next, Cnew, Rnew_prime,
+        Ms, Md,
+        SK_local, SK_new,
+        Hup, Hack : message
+
+  init State := 0
+
+  transition
+
+    % M1
+    1. State = 0 /\
+       RCV(IDV.req.T0') =|>
+       State' := 1 /\
+       T1' := new() /\
+       Ci' := new() /\
+       Ns' := new() /\
+       Ms' := Mask(Ns', PUF(PUFSeed, Ci')) /\
+       SND(Ci'.Ms'.H(Ms'.PUF(PUFSeed, Ci').T1').T1') /\
+       witness(ATAj, V, local_ataj_auth, Ci'.T1')
+
+    % M3
+    2. State = 1 /\
+       RCV(Ci_next'.Mask(Nd_prime, PUF(PUFSeed, Ci_next')).H(Mask(Nd_prime, PUF(PUFSeed, Ci_next')).PUF(PUFSeed, Ci_next').T2').T2') =|>
+       State' := 2 /\
+       Ri_next' := PUF(PUFSeed, Ci_next') /\
+       Md' := Mask(Nd_prime, Ri_next') /\
+       SK_local' := H(Ns.PUF(PUFSeed, Ci).Ri_next'.T2') /\
+       request(ATAj, V, local_vehicle_auth, Ci_next'.T2') /\
+       secret(SK_local', sec_local_key, {V, ATAj})
+
+    % M4 / M5 / M6 key update acknowledgement
+    3. State = 2 /\
+       RCV(IDV.Tnew'.Cnew'.H(SK_old.IDV.Cnew'.PUF(PUFSeed, Cnew').T.Tnew')) =|>
+       State' := 3 /\
+       Rnew_prime' := PUF(PUFSeed, Cnew') /\
+       SK_new' := H(SK_old.Rnew_prime'.T.Tnew') /\
+       Tack' := new() /\
+       Hack' := H(SK_new'.IDV.T.Tnew'.Tack'.ack) /\
+       request(ATAj, V, local_key_update_request, IDV.Cnew'.Tnew') /\
+       witness(ATAj, V, local_key_update_ack, Tack'.Tnew') /\
+       SND(Tack'.Hack') /\
+       secret(SK_new', sec_updated_key, {V, ATAj})
+
+end role
+
+
+role local_session(
+                   V, ATAj : agent,
+                   H       : hash_func,
+                   Mask    : hash_func,
+                   PUF     : hash_func,
+                   PUFSeed : text,
+                   SK_old  : message,
+                   T       : text,
+                   IDV     : message) def=
+
+  local SNDV, RCVV,
+        SNDA, RCVA : channel(dy)
+
+  composition
+    local_v(V, ATAj, H, Mask, PUF, PUFSeed, SK_old, T, IDV, SNDV, RCVV)
+    /\ local_ataj(V, ATAj, H, Mask, PUF, PUFSeed, SK_old, T, IDV, SNDA, RCVA)
+
+end role
+
+
+role environment() def=
+
+  const v, ataj, intruder : agent,
+        h, mask, puf : hash_func,
+        pufseed : text,
+        sk_old : message,
+        t_commit : text,
+        idv : message,
+        req, ack : message,
+        sec_local_key,
+        sec_updated_key,
+        local_ataj_auth,
+        local_vehicle_auth,
+        local_key_update_request,
+        local_key_update_ack : protocol_id
+
+  intruder_knowledge = {intruder, v, ataj, h, mask, puf, idv, req, ack}
+
+  composition
+    local_session(v, ataj, h, mask, puf, pufseed, sk_old, t_commit, idv)
+
+end role
+
+goal
+  secrecy_of sec_local_key
+  secrecy_of sec_updated_key
+  authentication_on local_ataj_auth
+  authentication_on local_vehicle_auth
+  authentication_on local_key_update_request
+  authentication_on local_key_update_ack
+end goal
+
+environment()

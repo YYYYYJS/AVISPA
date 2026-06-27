@@ -1,0 +1,5 @@
+%% Translation of models/spaka_local_auth_key_update.hlpsl
+%% HLPSL spec: warning(8): role local_v, transition 3: missing event
+%% IF output in models/spaka_local_auth_key_update.if
+
+%% Number of warnings: 1
