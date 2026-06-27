@@ -72,8 +72,8 @@ role cross_atai(
 played_by ATAi def=
 
   local State : nat,
-        T3, T4, T6, T6_store, T7, T8_store : text,
-        C1, C2, P1, P2, P1_store, P2_store,
+        T3, T4, T6, T7, T8 : text,
+        C1, C2, P1, P2,
         Authi, SK_cv : message
 
   init State := 0
@@ -91,21 +91,21 @@ played_by ATAi def=
     2. State = 1 /\
        RCV({C1'.C2'.P1'.P2'.T6'.T7'}_KTA_Ai) =|>
        State' := 2 /\
-       P1_store' := P1' /\
-       P2_store' := P2' /\
-       T6_store' := T6' /\
-       T8_store' := new() /\
-       Authi' := H(P1_store'.T8_store') /\
-       SK_cv' := H(P1_store'.P2_store'.T8_store') /\
-       SND(C1'.C2'.Authi'.T6_store'.T8_store') /\
-       witness(ATAi, CV, cross_atai_auth, P1_store'.T8_store') /\
+       P1' := P1' /\
+       P2' := P2' /\
+       T6' := T6' /\
+       T8' := new() /\
+       Authi' := H(P1'.T8') /\
+       SK_cv' := H(P1'.P2'.T8') /\
+       SND(C1'.C2'.Authi'.T6'.T8') /\
+       witness(ATAi, CV, cross_atai_auth, P1'.T8') /\
        secret(SK_cv', sec_cross_key, {CV, ATAi})
 
     % CV -> ATAi : Authcv = H(P2, t8)
     3. State = 2 /\
-       RCV(H(P2_store.T8_store)) =|>
+       RCV(H(P2.T8)) =|>
        State' := 3 /\
-       request(ATAi, CV, cross_cv_auth, P2_store.T8_store)
+       request(ATAi, CV, cross_cv_auth, P2.T8)
 
 end role
 

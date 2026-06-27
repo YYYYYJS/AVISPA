@@ -127,7 +127,7 @@ played_by ATAj def=
        State' := 2 /\
        Ri_next' := PUF(PUFSeed, Ci_next') /\
        Md' := Mask(Nd_prime, Ri_next') /\
-       SK_local' := H(Ns.PUF(PUFSeed, Ci).Ri_next'.T2') /\
+       SK_local' := H(Ns.Nd_prime.PUF(PUFSeed, Ci).Ri_next'.T2') /\
        request(ATAj, V, local_vehicle_auth, Ci_next'.T2') /\
        secret(SK_local', sec_local_key, {V, ATAj})
 

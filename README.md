@@ -10,6 +10,7 @@ The models cover:
 
 The models are evaluated under the Dolev--Yao attacker model with bounded sessions and typed messages.
 The SRAM-PUF behavior is represented symbolically by a private challenge-dependent function `puf(PUFSeed, C)` that is known only to the enrolled vehicle and the corresponding home ATA.
+In the cross-regional model, the final `Authcv` check is represented as a logical receive event, but it corresponds to a field piggybacked in the first protected application payload rather than to an extra counted packet.
 
 Validation was last executed on 2026-06-27.
 

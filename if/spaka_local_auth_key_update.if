@@ -86,9 +86,9 @@ step step_5 (ATAj,V,H,Mask,PUF,PUFSeed,SK_old,T,IDV,T0,T1,Dummy_T2,Tnew,Tack,Ci,
  state_local_ataj(ATAj,V,H,Mask,PUF,PUFSeed,SK_old,T,IDV,1,T0,T1,Dummy_T2,Tnew,Tack,Ci,Dummy_Ci_next,Ns,Nd_prime,Dummy_Ri_next,Cnew,Rnew_prime,Ms,Dummy_Md,Dummy_SK_local,SK_new,Hup,Hack,Dummy_Set_85,Set_86,SID).
  iknows(pair(Ci_next,pair(apply(Mask,pair(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)))),pair(apply(H,pair(apply(Mask,pair(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)))),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))),T2))))
  =>
- state_local_ataj(ATAj,V,H,Mask,PUF,PUFSeed,SK_old,T,IDV,2,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns,Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)),Cnew,Rnew_prime,Ms,apply(Mask,pair(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)))),apply(H,pair(Ns,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2)))),SK_new,Hup,Hack,Dummy_Set_85,Set_86,SID).
+ state_local_ataj(ATAj,V,H,Mask,PUF,PUFSeed,SK_old,T,IDV,2,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns,Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)),Cnew,Rnew_prime,Ms,apply(Mask,pair(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)))),apply(H,pair(Ns,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),SK_new,Hup,Hack,Dummy_Set_85,Set_86,SID).
  request(ATAj,V,local_vehicle_auth,pair(Ci_next,T2),SID).
- secret(apply(H,pair(Ns,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2)))),sec_local_key,Dummy_Set_85).
+ secret(apply(H,pair(Ns,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),sec_local_key,Dummy_Set_85).
  contains(V,Dummy_Set_85).
  contains(ATAj,Dummy_Set_85)
 
