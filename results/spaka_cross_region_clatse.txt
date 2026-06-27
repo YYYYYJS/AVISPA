@@ -1,59 +1,24 @@
 
 SUMMARY
-  UNSAFE
+  SAFE
 
 DETAILS
-  ATTACK_FOUND
+  BOUNDED_NUMBER_OF_SESSIONS
   TYPED_MODEL
 
 PROTOCOL
   if/spaka_cross_region.if
 
 GOAL
-  Authentication attack on (atai,cv,cross_cv_auth,P2(7).T8(7))
+  As Specified
 
 BACKEND
   CL-AtSe
 
 STATISTICS
 
-  Analysed   : 20 states
+  Analysed   : 15 states
   Reachable  : 7 states
-  Translation: 0.00 seconds
+  Translation: 0.01 seconds
   Computation: 0.00 seconds
-
-
-ATTACK TRACE
- i -> (cv,3):  start
- (cv,3) -> i:  {idvcv.n1(T3)}_pta
-
- i -> (atai,4):  {IDVcv(5).T3(5)}_pta
- (atai,4) -> i:  {{IDVcv(5).T3(5)}_pta.idai.n5(T4)}_k_ta_ai
-
- i -> (ta,5):  {{IDVcv(5).T3(5)}_pta.idai.n5(T4)}_k_ta_ai
- (ta,5) -> i:  {IDVcv(5).n11(T5)}_k_ta_aj
-
- i -> (ataj,6):  {IDVcv(5).n11(T5)}_k_ta_aj
- (ataj,6) -> i:  {n15(C1).n15(C2).{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.{IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h.n15(T6)}_k_ta_aj
-                 & Secret({IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h,set_187);
-                 & Secret({IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h,set_186);
-                 & Add cv to set_186;  Add atai to set_186;
-                 & Add ataj to set_186;  Add ta to set_186;  Add cv to set_187;
-                 & Add atai to set_187;  Add ataj to set_187;
-                 & Add ta to set_187;
-
- i -> (ta,5):  {n15(C1).n15(C2).{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.{IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h.n15(T6)}_k_ta_aj
- (ta,5) -> i:  {n15(C1).n15(C2).{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.{IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h.n15(T6).n12(T7)}_k_ta_ai
-
- i -> (atai,4):  {n15(C1).n15(C2).{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.{IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h.n15(T6).n12(T7)}_k_ta_ai
- (atai,4) -> i:  n15(C1).n15(C2).
-                 {{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.n6(T8)}_h.n15(T6).
-                 n6(T8)
-                 & Secret({{IDVcv(5).{pufseed.n15(C1)}_puf.n15(T6)}_h.{IDVcv(5).{pufseed.n15(C2)}_puf.n15(T6)}_h.n6(T8)}_h,set_173);
-                 & Witness(atai,cv,cross_atai_auth,n15(C1).n15(C2).n15(T6).n6(T8));
-                 & Add cv to set_173;  Add atai to set_173;
-
- i -> (atai,4):  {P2(7).T8(7)}_h
- (atai,4) -> i:  ()
-                 & Request(atai,cv,cross_cv_auth,P2(7).T8(7));
 

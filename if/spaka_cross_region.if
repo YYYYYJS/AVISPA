@@ -2,24 +2,24 @@
 
 section signature:
 
-state_cross_ataj: agent * agent * agent * agent * hash_func * hash_func * text * symmetric_key * message * nat * text * text * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
-state_cross_ta: agent * agent * agent * agent * hash_func * public_key * symmetric_key * symmetric_key * message * message * nat * text * text * text * text * text * message * message * message * message * nat -> fact
-state_cross_atai: agent * agent * agent * agent * hash_func * public_key * symmetric_key * message * nat * text * text * text * text * text * message * message * message * message * message * message * message * set(agent) * nat -> fact
-state_cross_cv: agent * agent * agent * agent * hash_func * hash_func * text * public_key * message * nat * text * text * text * message * message * message * message * message * message * message * message * message * set(agent) * nat -> fact
+state_cross_ataj: agent * agent * agent * agent * hash_func * hash_func * text * symmetric_key * agent * nat * text * text * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
+state_cross_ta: agent * agent * agent * agent * hash_func * public_key * symmetric_key * symmetric_key * message * agent * nat * text * text * text * text * text * message * message * message * message * nat -> fact
+state_cross_atai: agent * agent * agent * agent * hash_func * public_key * symmetric_key * message * agent * nat * text * text * text * text * text * text * message * message * message * message * message * message * message * message * set(agent) * nat -> fact
+state_cross_cv: agent * agent * agent * agent * hash_func * hash_func * text * public_key * agent * nat * text * text * text * message * message * message * message * message * message * message * message * message * set(agent) * nat -> fact
 
 
 section types:
 
-set_187, set_186, set_173, set_156: set
+set_193, set_192, set_176, set_159: set
 KTA_Aj, KTA_Ai, k_ta_ai, k_ta_aj: symmetric_key
+Dummy_Set_116, Dummy_Set_114, Dummy_Set_67, Dummy_Set_38, Set_67, ASGoal, Set_38, Set_116, Set_114: set(agent)
 PKTA, pta: public_key
-Dummy_Set_113, Dummy_Set_111, Dummy_Set_64, Dummy_Set_38, Set_64, ASGoal, Set_38, Set_113, Set_111: set(agent)
-PUF, H, h, puf: hash_func
 sec_cross_key, cross_cv_auth, cross_atai_auth, sec_p2, sec_p1: protocol_id
-IDVcv, Dummy_R2, Dummy_R1, C1, C2, P1, P2, Dummy_Authi, Dummy_P2, Dummy_P1, Dummy_IDVcv, IDAi, Dummy_SK_cv, Dummy_P2_prime, Dummy_P1_prime, Dummy_R2_prime, Dummy_R1_prime, Dummy_C2, Dummy_C1, Authi, SK_cv, dummy_msg, MGoal, idvcv, idai, start, R1_prime, R2_prime, P1_prime, P2_prime, Authcv, R1, R2: message
-CV, ATAi, ATAj, TA, A2Goal, A1Goal, cv, atai, ta, ataj, idintruder, i: agent
-PUFSeed, T3, Dummy_T5, T4, T5, T6, T7, Dummy_T7, Dummy_T4, Dummy_T8, Dummy_T6, Dummy_T3, dummy_nonce, T8, pufseed: text
+PUF, H, h, puf: hash_func
+Dummy_R2, Dummy_R1, C1, C2, P1, P2, Dummy_Authi, Dummy_P2_store, Dummy_P1_store, Dummy_P2, Dummy_P1, IDAi, Dummy_SK_cv, Dummy_P2_prime, Dummy_P1_prime, Dummy_R2_prime, Dummy_R1_prime, Dummy_C2, Dummy_C1, P1_store, P2_store, Authi, dummy_msg, SK_cv, MGoal, idai, start, R1_prime, R2_prime, P1_prime, P2_prime, Authcv, R1, R2: message
+PUFSeed, Dummy_T5, T3, T4, T5, T6, T7, Dummy_T8_store, Dummy_T7, Dummy_T6_store, Dummy_T4, Dummy_T8, Dummy_T6, Dummy_T3, dummy_nonce, T6_store, T8_store, pufseed, T8: text
 6, SID, 5, State, 4, 3, Dummy_State, SID2, SID1, 2, 1, 0: nat
+CV, ATAi, ATAj, TA, IDVcv, A2Goal, A1Goal, idvcv, cv, atai, ta, ataj, idintruder, i: agent
 
 
 section inits:
@@ -37,10 +37,10 @@ initial_state init1 :=
  iknows(idvcv).
  iknows(idai).
  iknows(i).
- state_cross_cv(cv,atai,ataj,ta,h,puf,pufseed,pta,idvcv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_156,3).
- state_cross_atai(atai,cv,ataj,ta,h,pta,k_ta_ai,idai,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_173,4).
+ state_cross_cv(cv,atai,ataj,ta,h,puf,pufseed,pta,idvcv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_159,3).
+ state_cross_atai(atai,cv,ataj,ta,h,pta,k_ta_ai,idai,idvcv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_176,4).
  state_cross_ta(ta,cv,atai,ataj,h,pta,k_ta_ai,k_ta_aj,idai,idvcv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,5).
- state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,0,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_186,set_187,6)
+ state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,0,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_192,set_193,6)
 
 
 section rules:
@@ -58,39 +58,39 @@ step step_1 (CV,ATAi,ATAj,TA,H,PUF,PUFSeed,PKTA,IDVcv,T3,Dummy_T6,Dummy_T8,Dummy
  =>
  state_cross_cv(CV,ATAi,ATAj,TA,H,PUF,PUFSeed,PKTA,IDVcv,2,T3,T6,T8,C1,C2,apply(PUF,pair(PUFSeed,C1)),apply(PUF,pair(PUFSeed,C2)),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),Authi,Authcv,apply(H,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),T8))),Dummy_Set_38,SID).
  iknows(apply(H,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),T8))).
- request(CV,ATAi,cross_atai_auth,pair(C1,pair(C2,pair(T6,T8))),SID).
+ request(CV,ATAi,cross_atai_auth,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),T8),SID).
  witness(CV,ATAi,cross_cv_auth,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),T8)).
  secret(apply(H,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),T8))),sec_cross_key,Dummy_Set_38).
  contains(CV,Dummy_Set_38).
  contains(ATAi,Dummy_Set_38)
 
-step step_2 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,Dummy_T3,Dummy_T4,T6,T7,T8,Dummy_IDVcv,C1,C2,P1,P2,Authi,SK_cv,Set_64,SID,T3,T4,IDVcv) :=
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,0,Dummy_T3,Dummy_T4,T6,T7,T8,Dummy_IDVcv,C1,C2,P1,P2,Authi,SK_cv,Set_64,SID).
+step step_2 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,Dummy_T3,Dummy_T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID,T3,T4) :=
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,0,Dummy_T3,Dummy_T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID).
  iknows(crypt(PKTA,pair(IDVcv,T3)))
 =[exists T4]=>
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,1,T3,T4,T6,T7,T8,IDVcv,C1,C2,P1,P2,Authi,SK_cv,Set_64,SID).
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,1,T3,T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID).
  iknows(scrypt(KTA_Ai,pair(crypt(PKTA,pair(IDVcv,T3)),pair(IDAi,T4))))
 
-step step_3 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,T3,T4,Dummy_T6,Dummy_T7,Dummy_T8,IDVcv,Dummy_C1,Dummy_C2,Dummy_P1,Dummy_P2,Dummy_Authi,Dummy_SK_cv,Dummy_Set_64,SID,T6,T7,T8,C1,C2,P1,P2) :=
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,1,T3,T4,Dummy_T6,Dummy_T7,Dummy_T8,IDVcv,Dummy_C1,Dummy_C2,Dummy_P1,Dummy_P2,Dummy_Authi,Dummy_SK_cv,Dummy_Set_64,SID).
+step step_3 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,T3,T4,Dummy_T6,Dummy_T6_store,Dummy_T7,Dummy_T8_store,Dummy_C1,Dummy_C2,Dummy_P1,Dummy_P2,Dummy_P1_store,Dummy_P2_store,Dummy_Authi,Dummy_SK_cv,Dummy_Set_67,SID,T6,T7,T8_store,C1,C2,P1,P2) :=
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,1,T3,T4,Dummy_T6,Dummy_T6_store,Dummy_T7,Dummy_T8_store,Dummy_C1,Dummy_C2,Dummy_P1,Dummy_P2,Dummy_P1_store,Dummy_P2_store,Dummy_Authi,Dummy_SK_cv,Dummy_Set_67,SID).
  iknows(scrypt(KTA_Ai,pair(C1,pair(C2,pair(P1,pair(P2,pair(T6,T7)))))))
-=[exists T8]=>
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,2,T3,T4,T6,T7,T8,IDVcv,C1,C2,P1,P2,apply(H,pair(P1,T8)),apply(H,pair(P1,pair(P2,T8))),Dummy_Set_64,SID).
- iknows(pair(C1,pair(C2,pair(apply(H,pair(P1,T8)),pair(T6,T8))))).
- witness(ATAi,CV,cross_atai_auth,pair(C1,pair(C2,pair(T6,T8)))).
- secret(apply(H,pair(P1,pair(P2,T8))),sec_cross_key,Dummy_Set_64).
- contains(CV,Dummy_Set_64).
- contains(ATAi,Dummy_Set_64)
+=[exists T8_store]=>
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,2,T3,T4,T6,T6,T7,T8_store,C1,C2,P1,P2,P1,P2,apply(H,pair(P1,T8_store)),apply(H,pair(P1,pair(P2,T8_store))),Dummy_Set_67,SID).
+ iknows(pair(C1,pair(C2,pair(apply(H,pair(P1,T8_store)),pair(T6,T8_store))))).
+ witness(ATAi,CV,cross_atai_auth,pair(P1,T8_store)).
+ secret(apply(H,pair(P1,pair(P2,T8_store))),sec_cross_key,Dummy_Set_67).
+ contains(CV,Dummy_Set_67).
+ contains(ATAi,Dummy_Set_67)
 
-step step_4 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,T3,T4,T6,T7,Dummy_T8,IDVcv,C1,C2,P1,Dummy_P2,Authi,SK_cv,Set_64,SID,T8,P2) :=
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,2,T3,T4,T6,T7,Dummy_T8,IDVcv,C1,C2,P1,Dummy_P2,Authi,SK_cv,Set_64,SID).
- iknows(apply(H,pair(P2,T8)))
+step step_4 (ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,T3,T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID) :=
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,2,T3,T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID).
+ iknows(apply(H,pair(P2_store,T8_store)))
  =>
- state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,3,T3,T4,T6,T7,T8,IDVcv,C1,C2,P1,P2,Authi,SK_cv,Set_64,SID).
- request(ATAi,CV,cross_cv_auth,pair(P2,T8),SID)
+ state_cross_atai(ATAi,CV,ATAj,TA,H,PKTA,KTA_Ai,IDAi,IDVcv,3,T3,T4,T6,T6_store,T7,T8_store,C1,C2,P1,P2,P1_store,P2_store,Authi,SK_cv,Set_67,SID).
+ request(ATAi,CV,cross_cv_auth,pair(P2_store,T8_store),SID)
 
-step step_5 (TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,Dummy_IDVcv,Dummy_T3,Dummy_T4,Dummy_T5,T6,T7,C1,C2,P1,P2,SID,IDVcv,T3,T4,T5) :=
- state_cross_ta(TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,Dummy_IDVcv,0,Dummy_T3,Dummy_T4,Dummy_T5,T6,T7,C1,C2,P1,P2,SID).
+step step_5 (TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,IDVcv,Dummy_T3,Dummy_T4,Dummy_T5,T6,T7,C1,C2,P1,P2,SID,T3,T4,T5) :=
+ state_cross_ta(TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,IDVcv,0,Dummy_T3,Dummy_T4,Dummy_T5,T6,T7,C1,C2,P1,P2,SID).
  iknows(scrypt(KTA_Ai,pair(crypt(PKTA,pair(IDVcv,T3)),pair(IDAi,T4))))
 =[exists T5]=>
  state_cross_ta(TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,IDVcv,1,T3,T4,T5,T6,T7,C1,C2,P1,P2,SID).
@@ -103,22 +103,22 @@ step step_6 (TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,IDVcv,T3,T4,T5,Dummy_T6,D
  state_cross_ta(TA,CV,ATAi,ATAj,H,PKTA,KTA_Ai,KTA_Aj,IDAi,IDVcv,2,T3,T4,T5,T6,T7,C1,C2,P1,P2,SID).
  iknows(scrypt(KTA_Ai,pair(C1,pair(C2,pair(P1,pair(P2,pair(T6,T7)))))))
 
-step step_7 (ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,Dummy_IDVcv,Dummy_T5,Dummy_T6,Dummy_C1,Dummy_C2,Dummy_R1,Dummy_R2,Dummy_P1,Dummy_P2,Dummy_Set_111,Dummy_Set_113,SID,IDVcv,T5,T6,C1,C2) :=
- state_cross_ataj(ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,Dummy_IDVcv,0,Dummy_T5,Dummy_T6,Dummy_C1,Dummy_C2,Dummy_R1,Dummy_R2,Dummy_P1,Dummy_P2,Dummy_Set_111,Dummy_Set_113,SID).
+step step_7 (ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,IDVcv,Dummy_T5,Dummy_T6,Dummy_C1,Dummy_C2,Dummy_R1,Dummy_R2,Dummy_P1,Dummy_P2,Dummy_Set_114,Dummy_Set_116,SID,T5,T6,C1,C2) :=
+ state_cross_ataj(ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,IDVcv,0,Dummy_T5,Dummy_T6,Dummy_C1,Dummy_C2,Dummy_R1,Dummy_R2,Dummy_P1,Dummy_P2,Dummy_Set_114,Dummy_Set_116,SID).
  iknows(scrypt(KTA_Aj,pair(IDVcv,T5)))
 =[exists T6,C2,C1]=>
- state_cross_ataj(ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,IDVcv,1,T5,T6,C1,C2,apply(PUF,pair(PUFSeed,C1)),apply(PUF,pair(PUFSeed,C2)),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),Dummy_Set_111,Dummy_Set_113,SID).
+ state_cross_ataj(ATAj,CV,ATAi,TA,H,PUF,PUFSeed,KTA_Aj,IDVcv,1,T5,T6,C1,C2,apply(PUF,pair(PUFSeed,C1)),apply(PUF,pair(PUFSeed,C2)),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),Dummy_Set_114,Dummy_Set_116,SID).
  iknows(scrypt(KTA_Aj,pair(C1,pair(C2,pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),pair(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),T6)))))).
- secret(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),sec_p1,Dummy_Set_111).
- secret(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),sec_p2,Dummy_Set_113).
- contains(CV,Dummy_Set_111).
- contains(ATAi,Dummy_Set_111).
- contains(ATAj,Dummy_Set_111).
- contains(TA,Dummy_Set_111).
- contains(CV,Dummy_Set_113).
- contains(ATAi,Dummy_Set_113).
- contains(ATAj,Dummy_Set_113).
- contains(TA,Dummy_Set_113)
+ secret(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C1)),T6))),sec_p1,Dummy_Set_114).
+ secret(apply(H,pair(IDVcv,pair(apply(PUF,pair(PUFSeed,C2)),T6))),sec_p2,Dummy_Set_116).
+ contains(CV,Dummy_Set_114).
+ contains(ATAi,Dummy_Set_114).
+ contains(ATAj,Dummy_Set_114).
+ contains(TA,Dummy_Set_114).
+ contains(CV,Dummy_Set_116).
+ contains(ATAi,Dummy_Set_116).
+ contains(ATAj,Dummy_Set_116).
+ contains(TA,Dummy_Set_116)
 
 
 section properties:

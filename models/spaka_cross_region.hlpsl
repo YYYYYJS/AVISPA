@@ -23,7 +23,7 @@ role cross_cv(
               PUF     : hash_func,
               PUFSeed : text,
               PKTA    : public_key,
-              IDVcv   : message,
+              IDVcv   : agent,
               SND, RCV : channel(dy))
 played_by CV def=
 
@@ -54,7 +54,7 @@ played_by CV def=
        P2_prime' := H(IDVcv.R2_prime'.T6') /\
        SK_cv' := H(P1_prime'.P2_prime'.T8') /\
        SND(H(P2_prime'.T8')) /\
-       request(CV, ATAi, cross_atai_auth, C1'.C2'.T6'.T8') /\
+       request(CV, ATAi, cross_atai_auth, P1_prime'.T8') /\
        witness(CV, ATAi, cross_cv_auth, P2_prime'.T8') /\
        secret(SK_cv', sec_cross_key, {CV, ATAi})
 
@@ -67,14 +67,13 @@ role cross_atai(
                 PKTA    : public_key,
                 KTA_Ai  : symmetric_key,
                 IDAi    : message,
+                IDVcv   : agent,
                 SND, RCV : channel(dy))
 played_by ATAi def=
 
   local State : nat,
-        T3, T4, T6, T7, T8 : text,
-        IDVcv : message,
-        C1, C2,
-        P1, P2,
+        T3, T4, T6, T6_store, T7, T8_store : text,
+        C1, C2, P1, P2, P1_store, P2_store,
         Authi, SK_cv : message
 
   init State := 0
@@ -83,27 +82,30 @@ played_by ATAi def=
 
     % M1 forward to TA: AEnc_K_TA_Ai(M1, IDAi, t4)
     1. State = 0 /\
-       RCV({IDVcv'.T3'}_PKTA) =|>
+       RCV({IDVcv.T3'}_PKTA) =|>
        State' := 1 /\
        T4' := new() /\
-       SND({{IDVcv'.T3'}_PKTA.IDAi.T4'}_KTA_Ai)
+       SND({{IDVcv.T3'}_PKTA.IDAi.T4'}_KTA_Ai)
 
     % M5: TA -> ATAi : AEnc_K_TA_Ai(C1, C2, P1, P2, t6, t7)
     2. State = 1 /\
        RCV({C1'.C2'.P1'.P2'.T6'.T7'}_KTA_Ai) =|>
        State' := 2 /\
-       T8' := new() /\
-       Authi' := H(P1'.T8') /\
-       SK_cv' := H(P1'.P2'.T8') /\
-       SND(C1'.C2'.Authi'.T6'.T8') /\
-       witness(ATAi, CV, cross_atai_auth, C1'.C2'.T6'.T8') /\
+       P1_store' := P1' /\
+       P2_store' := P2' /\
+       T6_store' := T6' /\
+       T8_store' := new() /\
+       Authi' := H(P1_store'.T8_store') /\
+       SK_cv' := H(P1_store'.P2_store'.T8_store') /\
+       SND(C1'.C2'.Authi'.T6_store'.T8_store') /\
+       witness(ATAi, CV, cross_atai_auth, P1_store'.T8_store') /\
        secret(SK_cv', sec_cross_key, {CV, ATAi})
 
     % CV -> ATAi : Authcv = H(P2, t8)
     3. State = 2 /\
-       RCV(H(P2'.T8')) =|>
+       RCV(H(P2_store.T8_store)) =|>
        State' := 3 /\
-       request(ATAi, CV, cross_cv_auth, P2'.T8')
+       request(ATAi, CV, cross_cv_auth, P2_store.T8_store)
 
 end role
 
@@ -115,7 +117,7 @@ role cross_ta(
               KTA_Ai  : symmetric_key,
               KTA_Aj  : symmetric_key,
               IDAi    : message,
-              IDVcv   : message,
+              IDVcv   : agent,
               SND, RCV : channel(dy))
 played_by TA def=
 
@@ -129,10 +131,10 @@ played_by TA def=
 
     % M2: ATAi -> TA : AEnc_K_TA_Ai(M1, IDAi, t4)
     1. State = 0 /\
-       RCV({{IDVcv'.T3'}_PKTA.IDAi.T4'}_KTA_Ai) =|>
+       RCV({{IDVcv.T3'}_PKTA.IDAi.T4'}_KTA_Ai) =|>
        State' := 1 /\
        T5' := new() /\
-       SND({IDVcv'.T5'}_KTA_Aj)
+       SND({IDVcv.T5'}_KTA_Aj)
 
     % M4: ATAj -> TA : AEnc_K_TA_Aj(C1, C2, P1, P2, t6)
     2. State = 1 /\
@@ -150,7 +152,7 @@ role cross_ataj(
                 PUF     : hash_func,
                 PUFSeed : text,
                 KTA_Aj  : symmetric_key,
-                IDVcv   : message,
+                IDVcv   : agent,
                 SND, RCV : channel(dy))
 played_by ATAj def=
 
@@ -166,15 +168,15 @@ played_by ATAj def=
 
     % M3: TA -> ATAj : AEnc_K_TA_Aj(IDVcv, t5)
     1. State = 0 /\
-       RCV({IDVcv'.T5'}_KTA_Aj) =|>
+       RCV({IDVcv.T5'}_KTA_Aj) =|>
        State' := 1 /\
        C1' := new() /\
        C2' := new() /\
        T6' := new() /\
        R1' := PUF(PUFSeed, C1') /\
        R2' := PUF(PUFSeed, C2') /\
-       P1' := H(IDVcv'.R1'.T6') /\
-       P2' := H(IDVcv'.R2'.T6') /\
+       P1' := H(IDVcv.R1'.T6') /\
+       P2' := H(IDVcv.R2'.T6') /\
        SND({C1'.C2'.P1'.P2'.T6'}_KTA_Aj) /\
        secret(P1', sec_p1, {CV, ATAi, ATAj, TA}) /\
        secret(P2', sec_p2, {CV, ATAi, ATAj, TA})
@@ -191,7 +193,7 @@ role cross_session(
                   KTA_Ai  : symmetric_key,
                   KTA_Aj  : symmetric_key,
                   IDAi    : message,
-                  IDVcv   : message) def=
+                  IDVcv   : agent) def=
 
   local SNDCV, RCVCV,
         SNDAi, RCVAi,
@@ -200,7 +202,7 @@ role cross_session(
 
   composition
     cross_cv(CV, ATAi, ATAj, TA, H, PUF, PUFSeed, PKTA, IDVcv, SNDCV, RCVCV)
-    /\ cross_atai(CV, ATAi, ATAj, TA, H, PKTA, KTA_Ai, IDAi, SNDAi, RCVAi)
+    /\ cross_atai(CV, ATAi, ATAj, TA, H, PKTA, KTA_Ai, IDAi, IDVcv, SNDAi, RCVAi)
     /\ cross_ta(CV, ATAi, ATAj, TA, H, PKTA, KTA_Ai, KTA_Aj, IDAi, IDVcv, SNDTA, RCVTA)
     /\ cross_ataj(CV, ATAi, ATAj, TA, H, PUF, PUFSeed, KTA_Aj, IDVcv, SNDAj, RCVAj)
 
@@ -213,7 +215,8 @@ role environment() def=
         h, puf : hash_func,
         pta : public_key,
         k_ta_ai, k_ta_aj : symmetric_key,
-        idvcv, idai : message,
+        idvcv : agent,
+        idai : message,
         pufseed : text,
         sec_cross_key,
         sec_p1,

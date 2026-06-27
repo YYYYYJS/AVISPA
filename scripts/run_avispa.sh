@@ -37,6 +37,7 @@ run_model() {
 
   "$hlpsl2if_bin" "$hlpsl_file" > "${log_prefix}_hlpsl2if.txt" 2>&1
   cp -f "$if_source" "$if_target"
+  rm -f "$if_source"
   "$ofmc_bin" "$if_target" > "${log_prefix}_ofmc.txt" 2>&1
 
   if command -v timeout >/dev/null 2>&1; then

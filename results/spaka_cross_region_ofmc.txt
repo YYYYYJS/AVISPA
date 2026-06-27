@@ -1,53 +1,18 @@
 % OFMC
 % Version of 2006/02/13
 SUMMARY
-  UNSAFE
+  SAFE
 DETAILS
-  ATTACK_FOUND
+  BOUNDED_NUMBER_OF_SESSIONS
 PROTOCOL
   if/spaka_cross_region.if
 GOAL
-  authentication_on_cross_cv_auth
+  as_specified
 BACKEND
   OFMC
 COMMENTS
 STATISTICS
   parseTime: 0.00s
-  searchTime: 0.01s
-  visitedNodes: 18 nodes
-  depth: 5 plies
-ATTACK TRACE
-i -> (atai,3): {x289.x267}_pta
-(atai,3) -> i: {{x289.x267}_pta.idai.T4(1)}_k_ta_ai
-i -> (ta,3): {{x289.x267}_pta.idai.T4(1)}_k_ta_ai
-(ta,3) -> i: {x289.T5(2)}_k_ta_aj
-i -> (ataj,3): {x289.T5(2)}_k_ta_aj
-(ataj,3) -> i: {C1(3).C2(3).h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T6(3)}_k_ta_aj
-i -> (ta,3): {C1(3).C2(3).h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T6(3)}_k_ta_aj
-(ta,3) -> i: {C1(3).C2(3).h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T6(3).T7(4)}_k_ta_ai
-i -> (atai,3): {C1(3).C2(3).h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T6(3).T7(4)}_k_ta_ai
-(atai,3) -> i: C1(3).C2(3).h(h(x289.puf(pufseed.C1(3)).T6(3)).T8(5)).T6(3).T8(5)
-i -> (atai,3): h(h(x289.puf(pufseed.C1(3)).T6(3)).T8(5))
-
-
-% Reached State:
-% 
-% request(atai,cv,cross_cv_auth,h(x289.puf(pufseed.C1(3)).T6(3)).T8(5),3)
-% witness(atai,cv,cross_atai_auth,C1(3).C2(3).T6(3).T8(5))
-% secret(h(h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T8(5)),sec_cross_key,set_173)
-% contains(cv,set_173)
-% contains(atai,set_173)
-% secret(h(x289.puf(pufseed.C1(3)).T6(3)),sec_p1,set_186)
-% secret(h(x289.puf(pufseed.C2(3)).T6(3)),sec_p2,set_187)
-% contains(cv,set_186)
-% contains(atai,set_186)
-% contains(ataj,set_186)
-% contains(ta,set_186)
-% contains(cv,set_187)
-% contains(atai,set_187)
-% contains(ataj,set_187)
-% contains(ta,set_187)
-% state_cross_atai(atai,cv,ataj,ta,h,pta,k_ta_ai,idai,3,x267,T4(1),T6(3),T7(4),T8(5),x289,C1(3),C2(3),h(x289.puf(pufseed.C1(3)).T6(3)),h(x289.puf(pufseed.C1(3)).T6(3)),h(h(x289.puf(pufseed.C1(3)).T6(3)).T8(5)),h(h(x289.puf(pufseed.C1(3)).T6(3)).h(x289.puf(pufseed.C2(3)).T6(3)).T8(5)),set_173,3)
-% state_cross_ta(ta,cv,atai,ataj,h,pta,k_ta_ai,k_ta_aj,idai,x289,2,x267,T4(1),T5(2),T6(3),T7(4),C1(3),C2(3),h(x289.puf(pufseed.C1(3)).T6(3)),h(x289.puf(pufseed.C2(3)).T6(3)),3)
-% state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,x289,1,T5(2),T6(3),C1(3),C2(3),puf(pufseed.C1(3)),puf(pufseed.C2(3)),h(x289.puf(pufseed.C1(3)).T6(3)),h(x289.puf(pufseed.C2(3)).T6(3)),set_186,set_187,3)
-% state_cross_cv(cv,atai,ataj,ta,h,puf,pufseed,pta,idvcv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_156,3)
+  searchTime: 0.02s
+  visitedNodes: 21 nodes
+  depth: 8 plies
