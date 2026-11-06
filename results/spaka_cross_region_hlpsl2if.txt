@@ -1,0 +1,2 @@
+%% Translation of /home/runner/work/AVISPA/AVISPA/validation-output/models/spaka_cross_region.hlpsl
+%% IF output in /home/runner/work/AVISPA/AVISPA/validation-output/models/spaka_cross_region.if

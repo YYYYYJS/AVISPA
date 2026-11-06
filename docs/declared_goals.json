@@ -1,0 +1,17 @@
+{
+  "models/spaka_cross_region.hlpsl": [
+    "secrecy_of sec_cross_key",
+    "secrecy_of sec_p1",
+    "secrecy_of sec_p2",
+    "authentication_on cross_atai_auth",
+    "authentication_on cross_cv_auth"
+  ],
+  "models/spaka_local_auth_key_update.hlpsl": [
+    "secrecy_of sec_local_key",
+    "secrecy_of sec_updated_key",
+    "authentication_on local_ataj_auth",
+    "authentication_on local_vehicle_auth",
+    "authentication_on local_key_update_request",
+    "authentication_on local_key_update_ack"
+  ]
+}

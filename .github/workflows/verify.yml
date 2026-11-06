@@ -1,0 +1,37 @@
+name: Verify manuscript models
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Fetch exact public revision
+        run: |
+          git init .
+          git remote add origin https://github.com/YYYYYJS/AVISPA.git
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Set up pinned AVISPA runtime
+        run: bash scripts/setup-linux-runtime.sh "$RUNNER_TEMP/spaka-avispa" > runtime_setup.txt 2>&1
+      - name: Set up independent OFMC version
+        run: bash scripts/setup-ofmc2024.sh "$RUNNER_TEMP/spaka-ofmc2024" > runtime2024_setup.txt 2>&1
+      - name: Regenerate models, IF, verdicts and completed executions
+        run: |
+          source "$RUNNER_TEMP/spaka-avispa/activate.sh"
+          source "$RUNNER_TEMP/spaka-ofmc2024/activate.sh"
+          bash scripts/run_avispa.sh
+      - name: Preserve unmodified evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: manuscript-model-verification
+          path: |
+            validation-output/
+            runtime_setup.txt
+            runtime2024_setup.txt
+          retention-days: 30
+          if-no-files-found: error

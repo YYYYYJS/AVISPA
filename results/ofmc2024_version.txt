@@ -1,0 +1,4 @@
+ofmc: You are using Open-Source Fixedpoint Model-Checker version 2024
+
+CallStack (from HasCallStack):
+  error, called at Main.hs:231:44 in main:Main

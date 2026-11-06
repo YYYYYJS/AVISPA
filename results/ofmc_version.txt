@@ -1,0 +1,2 @@
+ofmc: You are using Open-Source Fixedpoint Model-Checker version 2012c
+

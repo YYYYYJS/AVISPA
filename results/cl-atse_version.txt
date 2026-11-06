@@ -1,0 +1,21 @@
+  ********************************************  
+  **      European Project AVANTSSAR's      **  
+  **       &European Project AVISPA's       **  
+  **    ___           __  _____  __   ___   **  
+  **   |    |        |  |   |   |    |      **  
+  **   |    |    --- |--|   |    --  |--    **  
+  **   |___ |___     |  |   |    __| |___   **  
+  **                                        **  
+  **     This is CL-AtSe, version 2.3-4     **  
+  **     Release Date : 17 decembre 2009    **  
+  **                                        **  
+  **     Written by  :  TURUANI Mathieu     **  
+  **      Project CASSIS, LORIA-INRIA,      **  
+  **             Nancy, France.             **  
+  **                                        **  
+  **     Contributors : TUENGERTHAL Max     **  
+  **                    AVANESOV Tigran     **  
+  **                                        **  
+  **     Send bugs to : turuani@loria.fr    **  
+  **                                        **  
+  ********************************************  

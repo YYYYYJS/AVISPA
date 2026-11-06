@@ -1,0 +1,154 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 13.9M    0 95900    0     0  65659      0  0:03:42  0:00:01  0:03:41 65639 49 13.9M   49 7023k    0     0  2939k      0  0:00:04  0:00:02  0:00:02 2938k100 13.9M  100 13.9M    0     0  5390k      0  0:00:02  0:00:02 --:--:-- 5390k
+span-1.6-linux64-ubuntu.tar.gz: OK
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 17948  100 17948    0     0  23096      0 --:--:-- --:--:-- --:--:-- 23069100 17948  100 17948    0     0  23094      0 --:--:-- --:--:-- --:--:-- 23069
+libffi6.deb: OK
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 81392  100 81392    0     0   214k      0 --:--:-- --:--:-- --:--:--  214k
+libtinfo5.deb: OK
+tar: Ignoring unknown extended header keyword 'SCHILY.dev'
+tar: Ignoring unknown extended header keyword 'SCHILY.ino'
+tar: Ignoring unknown extended header keyword 'SCHILY.nlink'
+/home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if
+	linux-vdso.so.1 (0x00007f8d40134000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f8d40039000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f8d40034000)
+	libtinfo.so.5 => /home/runner/work/_temp/spaka-avispa/compat/lib/x86_64-linux-gnu/libtinfo.so.5 (0x00007f8d3fe00000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f8d4002f000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f8d3fa00000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f8d40136000)
+b9c360a2972fe24a79dc1dda271efb20caa2a00e7a8cd196e4ca00e83be0f5e6  /home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if
+ This is hlpsl2if version 2.0. 
+ Release date : 06 june 2005.  
+ See the AVISPA Project for details. 
+Usage: hlpsl2if [options] [file.hlpsl]
+Options:
+  --types       Print identifiers and their types
+  --init        Print initial state
+  --rules       Print protocol rules
+  --goals       Print goals
+  --all         Print everything (default)
+  --split       Split goals in different IF files
+  --stdout      Print on the standard output
+  --output dir  Set the output directory (default: same as input)
+  --nowarnings  Do not display warnings
+  --debug int   Debug level (0-5)
+  --version  Print version number
+  -help  Display this list of options
+  --help  Display this list of options
+/home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc
+	linux-vdso.so.1 (0x00007fb42c839000)
+	libgmp.so.10 => /lib/x86_64-linux-gnu/libgmp.so.10 (0x00007fb42c7a3000)
+	libffi.so.6 => /home/runner/work/_temp/spaka-avispa/compat/usr/lib/x86_64-linux-gnu/libffi.so.6 (0x00007fb42c400000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fb42c6ba000)
+	librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007fb42c6b5000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fb42c6b0000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb42c000000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fb42c83b000)
+1ccaa18eb8ec08c8ae422e34ddacebd017758d112c106758f206bb063a16eb45  /home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc
+ofmc: You are using Open-Source Fixedpoint Model-Checker version 2012c
+
+ofmc: usage: ofmc [<OPTIONS>] <INPUT FILE>
+Options:
+  --numSess <INT>  specify the number of sessions (for an AnB spec)
+  --of IF          (for AnB files only:) do not check, but produce AVISPA IF
+  --of Isa         (for AnB files only:) generate a fixedpoint proof for Isabelle-OFMC
+  --of AVANTSSAR   print result in AVANTSSAR Output Format
+  --fp             (for AnB files only:) check with fixedpoint module
+  --classic        (default) run in classic mode
+  -o <outputfile>  write result into <outputfile>
+  --help, -h       display this help
+  --version        display the version
+Options for classic mode:
+  --numSess <INT>              (for AnB files only:) check for a given number of sessions
+  --theory <TheoryFile>        use a custom algebraic theory
+  --exec, -e       checks the executability of each rule (do not search for attacks)
+  --untyped, -u                ignores all type-declarations
+  --depth <DEPTH>, -n <DEPTH>  specify maximum search depth/depth first search
+  --trace <PATH>, -t <PATH>    (PATH is white-space separated list of ints)
+                               specify a path in the search tree to visit
+                               by the indices of the successors to follow.
+  --noowngoal     (for AnB files only:) ignores attacks where an agent talks to itself
+
+/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse
+	linux-vdso.so.1 (0x00007fb9155f1000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fb9154f6000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fb9154f1000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb915200000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fb9155f3000)
+3a6fa017a212a74c2d38f26b17d411bc3313107334fe2158306a551f61049f27  /home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse
+  ********************************************  
+  **      European Project AVANTSSAR's      **  
+  **       &European Project AVISPA's       **  
+  **    ___           __  _____  __   ___   **  
+  **   |    |        |  |   |   |    |      **  
+  **   |    |    --- |--|   |    --  |--    **  
+  **   |___ |___     |  |   |    __| |___   **  
+  **                                        **  
+  **     This is CL-AtSe, version 2.3-4     **  
+  **     Release Date : 17 decembre 2009    **  
+  **                                        **  
+  **     Written by  :  TURUANI Mathieu     **  
+  **      Project CASSIS, LORIA-INRIA,      **  
+  **             Nancy, France.             **  
+  **                                        **  
+  **     Contributors : TUENGERTHAL Max     **  
+  **                    AVANESOV Tigran     **  
+  **                                        **  
+  **     Send bugs to : turuani@loria.fr    **  
+  **                                        **  
+  ********************************************  
+
+      European Project AVANTSSAR's
+       &European Project AVISPA's
+    ___           __  _____  __   ___   
+   |    |        |  |   |   |    |      
+   |    |    --- |--|   |    --  |--    
+   |___ |___     |  |   |    __| |___   
+
+     This is CL-AtSe, version 2.3-4     
+     Release Date : 17 decembre 2009    
+
+Usage  :  cl-atse [options] [files]
+
+  [files] Name of the IF files to process (default is standard input)
+          Note : HLPSL files allowed if hlpsl2if is available
+  -nb n   Maximum number of role iterations (or loops, default is 3)
+  -light  Use light unification (no partial associativity for pair)
+  -notype Do not take term types into account
+  -short  Perform breath-first search (minimal attack)
+  -out    Write the attack to file.atk
+  -dir d  Output directory to use with -out
+  -ns     Do not simplify the IF file (complete trace)
+  -opt    Try to replace hashing by tokens. (slower or faster dep. on protocol) (default for IF)
+  -noopt  Do not try to replace hashing by tokens. (slower or faster dep. on protocol) (Default for ASLAN)
+  -v      Print more output informations
+  -col n  Number of column in the output (default 80, disabled with -1).
+  -bench  Benchmark output format (very concise).
+  -if     Expect AVISPA's IF as input; Default
+
+Debugging options :
+
+  -aslan  Expect AVANTSSAR's ASLAN in input and tries to follow ASLAN in output.
+  -vv     Print even more output and term informations (debug)
+  -noexec Do not search for attacks (debug)
+  -tab    Write the correspondence table (debug)
+  -par    Write the parser output (debug)
+  -heavy  Extend the search for unforgeable atoms during simplification
+  -td     Perform depth-first search (default, less memory)
+  -lr     Perform breath-first search (minimal attack)
+  -debug  Write debuging informations for Read.ml (debug)
+  -split  Use the --split option on hlpsl2if for hlpsl input file.
+  -states Shows all internal system states of the analysis.
+  -trace  Use -trace "Short trace" to follow one particular trace.
+
+Miscellaneous options :
+
+  --version  Print the version number.
+  --licence  Print the CL-Atse's disclaimer (licence)
+  -help  Display this list of options
+  --help  Display this list of options

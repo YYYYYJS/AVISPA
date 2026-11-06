@@ -1,0 +1,59 @@
+Open-Source Fixedpoint Model-Checker version 2024
+SUMMARY:
+  INCONCLUSIVE
+BACKEND:
+  Open-Source Fixedpoint Model-Checker version 2024
+COMMENTS:  state:
+state_local_v(v,ataj,h,puf,pufseed,t_commit,idv,4,T0(1),T1(2),T2(3),Tnew(5),Tack(6),Ci(2),Ci_next(3),Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),Cnew(5),puf(pufseed,Cnew(5)),Ns(2) XOR puf(pufseed,Ci(2)),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),idv,Cnew(5),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),set_111,set_112,1)
+request(v,ataj,local_key_update_ack,Tack(6),Tnew(5),1)
+secret(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),sec_updated_key,set_112)
+contains(v,set_112)
+contains(ataj,set_112)
+
+request(ataj,v,local_key_update_request,idv,Cnew(5),Tnew(5),1)
+witness(ataj,v,local_key_update_ack,Tack(6),Tnew(5))
+secret(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),sec_updated_key,set_139)
+contains(v,set_139)
+contains(ataj,set_139)
+witness(v,ataj,local_key_update_request,idv,Cnew(5),Tnew(5))
+request(ataj,v,local_vehicle_auth,Ci_next(3),T2(3),1)
+secret(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),sec_local_key,set_138)
+contains(v,set_138)
+contains(ataj,set_138)
+witness(v,ataj,local_vehicle_auth,Ci_next(3),T2(3))
+request(v,ataj,local_ataj_auth,Ci(2),T1(2),1)
+secret(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),sec_local_key,set_111)
+contains(v,set_111)
+contains(ataj,set_111)
+witness(ataj,v,local_ataj_auth,Ci(2),T1(2))
+state_local_ataj(ataj,v,h,puf,pufseed,t_commit,idv,3,x329,T1(2),T2(3),Tnew(5),Tack(6),Ci(2),Ci_next(3),Ns(2),Nd_prime(3),puf(pufseed,Ci_next(3)),Cnew(5),puf(pufseed,Cnew(5)),Ns(2) XOR puf(pufseed,Ci(2)),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),dummy_msg,h(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),idv,t_commit,Tnew(5),Tack(6),ack),set_138,set_139,1)
+
+postponed:
+state_local_ataj(ataj,v,h,puf,pufseed,t_commit,idv,3,x329,T1(2),T2(3),Tnew(5),Tack(6),Ci(2),Ci_next(3),Ns(2),Nd_prime(3),puf(pufseed,Ci_next(3)),Cnew(5),puf(pufseed,Cnew(5)),Ns(2) XOR puf(pufseed,Ci(2)),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),dummy_msg,h(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),idv,t_commit,Tnew(5),Tack(6),ack),set_138,set_139,1)
+
+ik state:
+({ack,req,idv,start,i,t_commit,puf,h,ataj,v,idintruder,T0(1),T1(2),Ci(2),T2(3),Ci_next(3),Cnew(5),Tnew(5),h(Ns(2) XOR puf(pufseed,Ci(2)),puf(pufseed,Ci(2)),T1(2)),Ns(2) XOR puf(pufseed,Ci(2)),h(Nd_prime(3) XOR puf(pufseed,Ci_next(3)),puf(pufseed,Ci_next(3)),T2(3)),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),idv,Cnew(5),puf(pufseed,Cnew(5)),t_commit,Tnew(5))}
+,[Ns(2) XOR puf(pufseed,Ci(2)),Nd_prime(3) XOR puf(pufseed,Ci_next(3))])({Tack(6),h(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),idv,t_commit,Tnew(5),Tack(6),ack)}
+,[])
+
+Constraints:
+dfrom([x329] , [ack,req,idv,start,i,t_commit,puf,h,ataj,v,idintruder] , [T0(1)])
+  where (Ci_next(3)/=Ci(2) or False) and (Ci_next(3)/=Ci(2) or False) and True
+
+
+
+i -> (v,1): start
+(v,1) -> i: idv,req,T0(1)
+i -> (ataj,1): idv,req,x329
+(ataj,1) -> i: Ci(2),Ns(2) XOR puf(pufseed,Ci(2)),h(Ns(2) XOR puf(pufseed,Ci(2)),puf(pufseed,Ci(2)),T1(2)),T1(2)
+i -> (v,1): Ci(2),Ns(2) XOR puf(pufseed,Ci(2)),h(Ns(2) XOR puf(pufseed,Ci(2)),puf(pufseed,Ci(2)),T1(2)),T1(2)
+(v,1) -> i: Ci_next(3),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(Nd_prime(3) XOR puf(pufseed,Ci_next(3)),puf(pufseed,Ci_next(3)),T2(3)),T2(3)
+i -> (ataj,1): Ci_next(3),Nd_prime(3) XOR puf(pufseed,Ci_next(3)),h(Nd_prime(3) XOR puf(pufseed,Ci_next(3)),puf(pufseed,Ci_next(3)),T2(3)),T2(3)
+(v,1) -> i: idv,Tnew(5),Cnew(5),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),idv,Cnew(5),puf(pufseed,Cnew(5)),t_commit,Tnew(5))
+i -> (ataj,1): idv,Tnew(5),Cnew(5),h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),idv,Cnew(5),puf(pufseed,Cnew(5)),t_commit,Tnew(5))
+(ataj,1) -> i: Tack(6),h(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),idv,t_commit,Tnew(5),Tack(6),ack)
+i -> (v,1): Tack(6),h(h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5)),idv,t_commit,Tnew(5),Tack(6),ack)
+
+
+
+

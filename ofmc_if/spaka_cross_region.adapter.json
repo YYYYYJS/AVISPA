@@ -1,0 +1,15 @@
+{
+  "input": "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_cross_region.if",
+  "output": "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_cross_region.if",
+  "input_sha256": "11a79b3197deb72465663ce4e854e19a7d580046036c56dd8c8d84ceb421052e",
+  "output_sha256": "61a3aac56e4d9016bb05535308cd4d074061292b3326e260685952fb3be4e787",
+  "operation": "Move last state field (SID) to second position, including signatures",
+  "reversible": true,
+  "attack_states_byte_identical": true,
+  "state_signatures": [
+    "state_cross_ataj",
+    "state_cross_ta",
+    "state_cross_atai",
+    "state_cross_cv"
+  ]
+}

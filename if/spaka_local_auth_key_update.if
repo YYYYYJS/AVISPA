@@ -1,0 +1,207 @@
+%% IF specification of /home/runner/work/AVISPA/AVISPA/validation-output/models/spaka_local_auth_key_update.hlpsl
+
+section signature:
+
+state_local_ataj: agent * agent * hash_func * hash_func * text * text * message * nat * text * text * text * text * text * message * message * message * message * message * message * message * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
+state_local_v: agent * agent * hash_func * hash_func * text * text * message * nat * text * text * text * text * text * message * message * message * message * message * message * message * message * message * message * message * message * message * set(agent) * set(agent) * nat -> fact
+
+
+section types:
+
+set_111, set_138, set_112, set_139: set
+A1Goal, idintruder, V, i, v, A2Goal, ATAj, ataj: agent
+SID, State, 4, 3, SID1, Dummy_State, SID2, 1, 0, 2: nat
+sec_updated_key, local_key_update_ack, local_ataj_auth, local_vehicle_auth, sec_local_key, local_key_update_request: protocol_id
+T1, t_commit, Tack, pufseed, Dummy_T0, Tnew, Dummy_Tnew, PUFSeed, T0, T2, dummy_nonce, T, Dummy_T2, Dummy_T1, Dummy_Tack: text
+PUF, h, H, puf: hash_func
+Dummy_Set_43, Set_82, Set_81, ASGoal, Set_51, Dummy_Set_82, Dummy_Set_81, Dummy_Set_51, Set_43: set(agent)
+Dummy_SK_local, Ci, MGoal, Rnew, Ns_prime, idv, Dummy_Hack, Dummy_Rnew, Ci_next, Dummy_Ci, Hup, Ns, Dummy_Nd_prime, Dummy_Md, Md, Nd_prime, SK_new, Dummy_SK_new, Ms, Ri_next, req, Hack, Dummy_Ci_next, Cnew, IDV, Dummy_Hup, Dummy_Ri_prime, Dummy_Cnew, Dummy_Ns, Dummy_Rnew_prime, Rnew_prime, Dummy_Ns_prime, ack, Dummy_Ms, SK_local, Ri_prime, dummy_msg, start, Dummy_Ri_next: message
+
+
+section inits:
+
+initial_state init1 := 
+ iknows(start).
+ iknows(idintruder).
+ iknows(v).
+ iknows(ataj).
+ iknows(h).
+ iknows(puf).
+ iknows(idv).
+ iknows(req).
+ iknows(ack).
+ iknows(t_commit).
+ iknows(i).
+ state_local_v(v,ataj,h,puf,pufseed,t_commit,idv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_111,set_112,3).
+ state_local_ataj(ataj,v,h,puf,pufseed,t_commit,idv,0,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_nonce,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,dummy_msg,set_138,set_139,4)
+
+
+section rules:
+
+step step_0 (V,ATAj,H,PUF,PUFSeed,T,IDV,Dummy_T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Set_51,SID,T0) :=
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,0,Dummy_T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Set_51,SID).
+ iknows(start)
+=[exists T0]=>
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,1,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Set_51,SID).
+ iknows(pair(IDV,pair(req,T0)))
+
+step step_1 (V,ATAj,H,PUF,PUFSeed,T,IDV,T0,Dummy_T1,Dummy_T2,Tnew,Tack,Dummy_Ci,Dummy_Ci_next,Dummy_Ns_prime,Dummy_Nd_prime,Dummy_Ri_prime,Dummy_Ri_next,Cnew,Rnew,Dummy_Ms,Dummy_Md,Dummy_SK_local,SK_new,Hup,Dummy_Set_43,Set_51,SID,T1,T2,Ci,Ci_next,Ns_prime,Nd_prime) :=
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,1,T0,Dummy_T1,Dummy_T2,Tnew,Tack,Dummy_Ci,Dummy_Ci_next,Dummy_Ns_prime,Dummy_Nd_prime,Dummy_Ri_prime,Dummy_Ri_next,Cnew,Rnew,Dummy_Ms,Dummy_Md,Dummy_SK_local,SK_new,Hup,Dummy_Set_43,Set_51,SID).
+ iknows(pair(Ci,pair(xor(Ns_prime,apply(PUF,pair(PUFSeed,Ci))),pair(apply(H,pair(xor(Ns_prime,apply(PUF,pair(PUFSeed,Ci))),pair(apply(PUF,pair(PUFSeed,Ci)),T1))),T1))))
+=[exists T2,Ci_next,Nd_prime]=>
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,2,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,apply(PUF,pair(PUFSeed,Ci)),apply(PUF,pair(PUFSeed,Ci_next)),Cnew,Rnew,xor(Ns_prime,apply(PUF,pair(PUFSeed,Ci))),xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),apply(H,pair(Ns_prime,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),SK_new,Hup,Dummy_Set_43,Set_51,SID).
+ iknows(pair(Ci_next,pair(xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),pair(apply(H,pair(xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))),T2)))).
+ witness(V,ATAj,local_vehicle_auth,pair(Ci_next,T2)).
+ request(V,ATAj,local_ataj_auth,pair(Ci,T1),SID).
+ secret(apply(H,pair(Ns_prime,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),sec_local_key,Dummy_Set_43).
+ contains(V,Dummy_Set_43).
+ contains(ATAj,Dummy_Set_43)
+
+step step_2 (V,ATAj,H,PUF,PUFSeed,T,IDV,T0,T1,T2,Dummy_Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Dummy_Cnew,Dummy_Rnew,Ms,Md,SK_local,Dummy_SK_new,Dummy_Hup,Set_43,Set_51,SID,Tnew,Cnew) :=
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,2,T0,T1,T2,Dummy_Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Dummy_Cnew,Dummy_Rnew,Ms,Md,SK_local,Dummy_SK_new,Dummy_Hup,Set_43,Set_51,SID)
+=[exists Tnew,Cnew]=>
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,3,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,apply(PUF,pair(PUFSeed,Cnew)),Ms,Md,SK_local,apply(H,pair(SK_local,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))),apply(H,pair(SK_local,pair(IDV,pair(Cnew,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))))),Set_43,Set_51,SID).
+ iknows(pair(IDV,pair(Tnew,pair(Cnew,apply(H,pair(SK_local,pair(IDV,pair(Cnew,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))))))))).
+ witness(V,ATAj,local_key_update_request,pair(IDV,pair(Cnew,Tnew)))
+
+step step_3 (V,ATAj,H,PUF,PUFSeed,T,IDV,T0,T1,T2,Tnew,Dummy_Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Dummy_Set_51,SID,Tack) :=
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,3,T0,T1,T2,Tnew,Dummy_Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Dummy_Set_51,SID).
+ iknows(pair(Tack,apply(H,pair(SK_new,pair(IDV,pair(T,pair(Tnew,pair(Tack,ack))))))))
+ =>
+ state_local_v(V,ATAj,H,PUF,PUFSeed,T,IDV,4,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns_prime,Nd_prime,Ri_prime,Ri_next,Cnew,Rnew,Ms,Md,SK_local,SK_new,Hup,Set_43,Dummy_Set_51,SID).
+ request(V,ATAj,local_key_update_ack,pair(Tack,Tnew),SID).
+ secret(SK_new,sec_updated_key,Dummy_Set_51).
+ contains(V,Dummy_Set_51).
+ contains(ATAj,Dummy_Set_51)
+
+step step_4 (ATAj,V,H,PUF,PUFSeed,T,IDV,Dummy_T0,Dummy_T1,T2,Tnew,Tack,Dummy_Ci,Ci_next,Dummy_Ns,Nd_prime,Ri_next,Cnew,Rnew_prime,Dummy_Ms,Md,SK_local,SK_new,Hup,Hack,Set_81,Set_82,SID,T0,T1,Ci,Ns) :=
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,0,Dummy_T0,Dummy_T1,T2,Tnew,Tack,Dummy_Ci,Ci_next,Dummy_Ns,Nd_prime,Ri_next,Cnew,Rnew_prime,Dummy_Ms,Md,SK_local,SK_new,Hup,Hack,Set_81,Set_82,SID).
+ iknows(pair(IDV,pair(req,T0)))
+=[exists Ns,Ci,T1]=>
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,1,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns,Nd_prime,Ri_next,Cnew,Rnew_prime,xor(Ns,apply(PUF,pair(PUFSeed,Ci))),Md,SK_local,SK_new,Hup,Hack,Set_81,Set_82,SID).
+ iknows(pair(Ci,pair(xor(Ns,apply(PUF,pair(PUFSeed,Ci))),pair(apply(H,pair(xor(Ns,apply(PUF,pair(PUFSeed,Ci))),pair(apply(PUF,pair(PUFSeed,Ci)),T1))),T1)))).
+ witness(ATAj,V,local_ataj_auth,pair(Ci,T1))
+
+step step_5 (ATAj,V,H,PUF,PUFSeed,T,IDV,T0,T1,Dummy_T2,Tnew,Tack,Ci,Dummy_Ci_next,Ns,Dummy_Nd_prime,Dummy_Ri_next,Cnew,Rnew_prime,Ms,Dummy_Md,Dummy_SK_local,SK_new,Hup,Hack,Dummy_Set_81,Set_82,SID,T2,Ci_next,Nd_prime) :=
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,1,T0,T1,Dummy_T2,Tnew,Tack,Ci,Dummy_Ci_next,Ns,Dummy_Nd_prime,Dummy_Ri_next,Cnew,Rnew_prime,Ms,Dummy_Md,Dummy_SK_local,SK_new,Hup,Hack,Dummy_Set_81,Set_82,SID).
+ iknows(pair(Ci_next,pair(xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),pair(apply(H,pair(xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))),T2)))) &
+ not(equal(Ci_next,Ci))
+ =>
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,2,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns,Nd_prime,apply(PUF,pair(PUFSeed,Ci_next)),Cnew,Rnew_prime,Ms,xor(Nd_prime,apply(PUF,pair(PUFSeed,Ci_next))),apply(H,pair(Ns,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),SK_new,Hup,Hack,Dummy_Set_81,Set_82,SID).
+ request(ATAj,V,local_vehicle_auth,pair(Ci_next,T2),SID).
+ secret(apply(H,pair(Ns,pair(Nd_prime,pair(apply(PUF,pair(PUFSeed,Ci)),pair(apply(PUF,pair(PUFSeed,Ci_next)),T2))))),sec_local_key,Dummy_Set_81).
+ contains(V,Dummy_Set_81).
+ contains(ATAj,Dummy_Set_81)
+
+step step_6 (ATAj,V,H,PUF,PUFSeed,T,IDV,T0,T1,T2,Dummy_Tnew,Dummy_Tack,Ci,Ci_next,Ns,Nd_prime,Ri_next,Dummy_Cnew,Dummy_Rnew_prime,Ms,Md,SK_local,Dummy_SK_new,Hup,Dummy_Hack,Set_81,Dummy_Set_82,SID,Tnew,Tack,Cnew) :=
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,2,T0,T1,T2,Dummy_Tnew,Dummy_Tack,Ci,Ci_next,Ns,Nd_prime,Ri_next,Dummy_Cnew,Dummy_Rnew_prime,Ms,Md,SK_local,Dummy_SK_new,Hup,Dummy_Hack,Set_81,Dummy_Set_82,SID).
+ iknows(pair(IDV,pair(Tnew,pair(Cnew,apply(H,pair(SK_local,pair(IDV,pair(Cnew,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew))))))))))
+=[exists Tack]=>
+ state_local_ataj(ATAj,V,H,PUF,PUFSeed,T,IDV,3,T0,T1,T2,Tnew,Tack,Ci,Ci_next,Ns,Nd_prime,Ri_next,Cnew,apply(PUF,pair(PUFSeed,Cnew)),Ms,Md,SK_local,apply(H,pair(SK_local,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))),Hup,apply(H,pair(apply(H,pair(SK_local,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))),pair(IDV,pair(T,pair(Tnew,pair(Tack,ack)))))),Set_81,Dummy_Set_82,SID).
+ request(ATAj,V,local_key_update_request,pair(IDV,pair(Cnew,Tnew)),SID).
+ witness(ATAj,V,local_key_update_ack,pair(Tack,Tnew)).
+ iknows(pair(Tack,apply(H,pair(apply(H,pair(SK_local,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))),pair(IDV,pair(T,pair(Tnew,pair(Tack,ack)))))))).
+ secret(apply(H,pair(SK_local,pair(apply(PUF,pair(PUFSeed,Cnew)),pair(T,Tnew)))),sec_updated_key,Dummy_Set_82).
+ contains(V,Dummy_Set_82).
+ contains(ATAj,Dummy_Set_82)
+
+
+section properties:
+
+property secrecy_of_sec_local_key (MGoal,ASGoal) :=
+ [] ((secret(MGoal,sec_local_key,ASGoal) /\ iknows(MGoal))
+     => contains(i,ASGoal))
+
+property secrecy_of_sec_updated_key (MGoal,ASGoal) :=
+ [] ((secret(MGoal,sec_updated_key,ASGoal) /\ iknows(MGoal))
+     => contains(i,ASGoal))
+
+property authentication_on_local_ataj_auth (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,local_ataj_auth,MGoal))
+     /\ ((request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+property authentication_on_local_vehicle_auth (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,local_vehicle_auth,MGoal))
+     /\ ((request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+property authentication_on_local_key_update_request (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,local_key_update_request,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,local_key_update_request,MGoal))
+     /\ ((request(A1Goal,A2Goal,local_key_update_request,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,local_key_update_request,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+property authentication_on_local_key_update_ack (A1Goal,A2Goal,MGoal,SID,SID1,SID2) :=
+ [] (((request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID)
+       /\ ~ equal(A2Goal,i))
+      => witness(A2Goal,A1Goal,local_key_update_ack,MGoal))
+     /\ ((request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID1)
+           /\ request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID2)
+           /\ ~ equal(A2Goal,i))
+          => equal(SID1,SID2)))
+
+
+section attack_states:
+
+attack_state secrecy_of_sec_local_key (MGoal,ASGoal) :=
+ iknows(MGoal).
+ secret(MGoal,sec_local_key,ASGoal) &
+ not(contains(i,ASGoal))
+
+attack_state secrecy_of_sec_updated_key (MGoal,ASGoal) :=
+ iknows(MGoal).
+ secret(MGoal,sec_updated_key,ASGoal) &
+ not(contains(i,ASGoal))
+
+attack_state authentication_on_local_ataj_auth (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,local_ataj_auth,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_local_ataj_auth (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID1).
+ request(A1Goal,A2Goal,local_ataj_auth,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+
+attack_state authentication_on_local_vehicle_auth (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,local_vehicle_auth,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_local_vehicle_auth (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID1).
+ request(A1Goal,A2Goal,local_vehicle_auth,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+
+attack_state authentication_on_local_key_update_request (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,local_key_update_request,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,local_key_update_request,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_local_key_update_request (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,local_key_update_request,MGoal,SID1).
+ request(A1Goal,A2Goal,local_key_update_request,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+
+attack_state authentication_on_local_key_update_ack (A1Goal,A2Goal,MGoal,SID) :=
+ request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID) &
+ not(witness(A2Goal,A1Goal,local_key_update_ack,MGoal)) &
+ not(equal(A2Goal,i))
+attack_state replay_protection_on_local_key_update_ack (A2Goal,A1Goal,MGoal,SID1,SID2) :=
+ request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID1).
+ request(A1Goal,A2Goal,local_key_update_ack,MGoal,SID2) &
+ not(equal(SID1,SID2)) &
+ not(equal(A2Goal,i))
+

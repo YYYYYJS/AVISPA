@@ -1,0 +1,66 @@
+Open-Source Fixedpoint Model-Checker version 2024
+SUMMARY:
+  INCONCLUSIVE
+BACKEND:
+  Open-Source Fixedpoint Model-Checker version 2024
+COMMENTS:  state:
+state_cross_atai(atai,cv,ataj,ta,h,pta,k_ta_ai,idai,idvcv,3,dummy_nonce,T4(2),T6(4),T7(5),T8(6),{idvcv,T3(1)}_pta,C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),h(h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6)),h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)),set_174,1)
+request(atai,cv,cross_cv_auth,h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6),1)
+state_cross_cv(cv,atai,ataj,ta,h,puf,pufseed,pta,idvcv,2,T3(1),T6(4),T8(6),C1(4),C2(4),puf(pufseed,C1(4)),puf(pufseed,C2(4)),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),dummy_msg,dummy_msg,h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)),set_157,1)
+state_cross_ta(ta,cv,atai,ataj,h,pta,k_ta_ai,k_ta_aj,idai,idvcv,2,T3(1),T4(2),T5(3),T6(4),T7(5),C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),1)
+
+request(cv,atai,cross_atai_auth,h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6),1)
+witness(cv,atai,cross_cv_auth,h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))
+secret(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)),sec_cross_key,set_157)
+contains(cv,set_157)
+contains(atai,set_157)
+witness(atai,cv,cross_atai_auth,h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6))
+secret(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)),sec_cross_key,set_174)
+contains(cv,set_174)
+contains(atai,set_174)
+secret(h(idvcv,puf(pufseed,C1(4)),T6(4)),sec_p1,set_187)
+secret(h(idvcv,puf(pufseed,C2(4)),T6(4)),sec_p2,set_188)
+contains(cv,set_187)
+contains(atai,set_187)
+contains(ataj,set_187)
+contains(ta,set_187)
+contains(cv,set_188)
+contains(atai,set_188)
+contains(ataj,set_188)
+contains(ta,set_188)
+state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,1,T5(3),T6(4),C1(4),C2(4),puf(pufseed,C1(4)),puf(pufseed,C2(4)),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),set_187,set_188,1)
+
+postponed:
+state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,1,T5(3),T6(4),C1(4),C2(4),puf(pufseed,C1(4)),puf(pufseed,C2(4)),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),set_187,set_188,1)
+state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,1,T5(3),T6(4),C1(4),C2(4),puf(pufseed,C1(4)),puf(pufseed,C2(4)),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),set_187,set_188,1)
+state_cross_ataj(ataj,cv,atai,ta,h,puf,pufseed,k_ta_aj,idvcv,1,T5(3),T6(4),C1(4),C2(4),puf(pufseed,C1(4)),puf(pufseed,C2(4)),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),set_187,set_188,1)
+
+ik state:
+({idai,start,i,idvcv,pta,puf,h,ataj,ta,atai,cv,idintruder,T8(6),T6(4),C2(4),C1(4),{idvcv,T3(1)}_pta,{|{idvcv,T3(1)}_pta,idai,T4(2)|}_k_ta_ai,{|idvcv,T5(3)|}_k_ta_aj,{|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4)|}_k_ta_aj,{|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4),T7(5)|}_k_ta_ai,h(h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6))}
+,[{idvcv,T3(1)}_pta,{|{idvcv,T3(1)}_pta,idai,T4(2)|}_k_ta_ai,{|idvcv,T5(3)|}_k_ta_aj,{|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4)|}_k_ta_aj,{|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4),T7(5)|}_k_ta_ai])({{|h(h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))|}_(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)))}
+,[{|h(h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))|}_(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)))])
+
+Constraints:
+  where True
+
+
+
+i -> (cv,1): start
+(cv,1) -> i: {idvcv,T3(1)}_pta
+i -> (atai,1): {idvcv,T3(1)}_pta
+(atai,1) -> i: {|{idvcv,T3(1)}_pta,idai,T4(2)|}_k_ta_ai
+i -> (ta,1): {|{idvcv,T3(1)}_pta,idai,T4(2)|}_k_ta_ai
+(ta,1) -> i: {|idvcv,T5(3)|}_k_ta_aj
+i -> (ataj,1): {|idvcv,T5(3)|}_k_ta_aj
+(ataj,1) -> i: {|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4)|}_k_ta_aj
+i -> (ta,1): {|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4)|}_k_ta_aj
+(ta,1) -> i: {|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4),T7(5)|}_k_ta_ai
+i -> (atai,1): {|C1(4),C2(4),h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T6(4),T7(5)|}_k_ta_ai
+(atai,1) -> i: C1(4),C2(4),h(h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6)),T6(4),T8(6)
+i -> (cv,1): C1(4),C2(4),h(h(idvcv,puf(pufseed,C1(4)),T6(4)),T8(6)),T6(4),T8(6)
+(cv,1) -> i: {|h(h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))|}_(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)))
+i -> (atai,1): {|h(h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))|}_(h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6)))
+
+
+
+

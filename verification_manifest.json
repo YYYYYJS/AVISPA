@@ -1,0 +1,421 @@
+{
+  "source_commit": "72fb9374073912229bfe0037e272009c2993a8e3",
+  "run_id": "42184204455",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "tools": {
+    "hlpsl2if": {
+      "path": "/home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if",
+      "sha256": "b9c360a2972fe24a79dc1dda271efb20caa2a00e7a8cd196e4ca00e83be0f5e6",
+      "version": {
+        "command": [
+          "/home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if",
+          "--version"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.003,
+        "log": "results/hlpsl2if_version.txt",
+        "sha256": "cbd0aa41565d6d44186d9de712133bae3bab5ded45b2c92840aa3df37a299379",
+        "summary": null
+      }
+    },
+    "ofmc": {
+      "path": "/home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc",
+      "sha256": "1ccaa18eb8ec08c8ae422e34ddacebd017758d112c106758f206bb063a16eb45",
+      "version": {
+        "command": [
+          "/home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc",
+          "--version"
+        ],
+        "exit_code": 1,
+        "timeout": false,
+        "seconds": 0.001,
+        "log": "results/ofmc_version.txt",
+        "sha256": "a7eb546526db4caf7956efd7d8f0107c15f058b889a99da0528b3a07825f4a5d",
+        "summary": null
+      }
+    },
+    "cl-atse": {
+      "path": "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+      "sha256": "3a6fa017a212a74c2d38f26b17d411bc3313107334fe2158306a551f61049f27",
+      "version": {
+        "command": [
+          "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+          "--version"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.001,
+        "log": "results/cl-atse_version.txt",
+        "sha256": "0a6b8559bc9b3d533a035807cde600ba87ce9b54606434fbb3a84129b40fe6b2",
+        "summary": null
+      }
+    },
+    "ofmc2024": {
+      "path": "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+      "sha256": "b99a4e2c1c03cff13b246a1aa3c55d020d248bc1d0ef7a66599964116196806a",
+      "version": {
+        "command": [
+          "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+          "--version"
+        ],
+        "exit_code": 1,
+        "timeout": false,
+        "seconds": 0.005,
+        "log": "results/ofmc2024_version.txt",
+        "sha256": "fddc65743438c1b12778e86059844444707b335c437a75cfacd2ddabbafebc31",
+        "summary": null
+      }
+    }
+  },
+  "models": {
+    "spaka_local_auth_key_update": {
+      "source": "models/spaka_local_auth_key_update.hlpsl",
+      "source_sha256": "faae83838e360481f8b581392f64f6bb373235355c1ab120e4f38316e8c13df0",
+      "expected_audit_result": "SAFE",
+      "checks": {
+        "ofmc": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc",
+            "--classic",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_local_auth_key_update.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.031,
+          "log": "results/spaka_local_auth_key_update_ofmc.txt",
+          "sha256": "455cec1404ea54b562e4a9b288a7066774d7f11ce76a8e1cda0011aeda2cd158",
+          "summary": "SAFE"
+        },
+        "ofmc2024": {
+          "command": [
+            "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+            "--classic",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_local_auth_key_update.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.031,
+          "log": "results/spaka_local_auth_key_update_ofmc2024.txt",
+          "sha256": "2c782276b3d9d3c0706f936c542035e9ccf6f9d1d21727978f28a61537a9770a",
+          "summary": "NO_ATTACK_FOUND"
+        },
+        "clatse": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_local_auth_key_update.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.015,
+          "log": "results/spaka_local_auth_key_update_clatse.txt",
+          "sha256": "6557f72ea098195e25586061a91146c9fdeaa86908d44919017672d35984e1ef",
+          "summary": "SAFE"
+        },
+        "clatse_noopt": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+            "-noopt",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_local_auth_key_update.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.014,
+          "log": "results/spaka_local_auth_key_update_clatse_noopt.txt",
+          "sha256": "6557f72ea098195e25586061a91146c9fdeaa86908d44919017672d35984e1ef",
+          "summary": "SAFE"
+        }
+      },
+      "declared_goals_preserved": true,
+      "declared_goals": [
+        "secrecy_of sec_local_key",
+        "secrecy_of sec_updated_key",
+        "authentication_on local_ataj_auth",
+        "authentication_on local_vehicle_auth",
+        "authentication_on local_key_update_request",
+        "authentication_on local_key_update_ack"
+      ],
+      "translation": {
+        "command": [
+          "/home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/models/spaka_local_auth_key_update.hlpsl"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.01,
+        "log": "results/spaka_local_auth_key_update_hlpsl2if.txt",
+        "sha256": "9169afdf2a010a769490e2cfbcb0a15ca1dcb43aab3ba5319a04136ce4a01867",
+        "summary": null
+      },
+      "if_sha256": "df8300fcef97d2d0ef84a85d0eb10ada66a7f78a9b6327ebeb3b995238e8755b",
+      "model_correction_checks": {
+        "ata_cache_guard_translated": true
+      },
+      "adapter": {
+        "command": [
+          "/usr/bin/python3",
+          "/home/runner/work/AVISPA/AVISPA/scripts/adapt_ofmc_if.py",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_local_auth_key_update.if",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_local_auth_key_update.if"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.032,
+        "log": "results/spaka_local_auth_key_update_adapter.txt",
+        "sha256": "fcf4b334275fb1d3bfe750ae6ce68867247c96f1a66a8ea2f9708c7f37dbe82b",
+        "summary": null
+      },
+      "ofmc_if_sha256": "0218fcc21cc639b2767112173274272992953133bbcb185ee3d558c35c543138",
+      "execution": {
+        "attempts": [
+          {
+            "path": [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            "command": [
+              "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+              "--classic",
+              "--trace",
+              "0",
+              "0",
+              "0",
+              "1",
+              "0",
+              "0",
+              "0",
+              "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_local_auth_key_update.if"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "seconds": 0.021,
+            "log": "execution/spaka_local_auth_key_update_trace_0_0_0_1_0_0_0.txt",
+            "sha256": "ebaa9ca2125277d1befe32bd7ea084170d5db37232521a97f00dafb18a600a51",
+            "summary": "INCONCLUSIVE"
+          }
+        ],
+        "completed": {
+          "terminal_states": {
+            "state_local_v": "4",
+            "state_local_ataj": "3"
+          },
+          "equal_keys": {
+            "SK_local": "h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3))",
+            "SK_new": "h(h(Ns(2),Nd_prime(3),puf(pufseed,Ci(2)),puf(pufseed,Ci_next(3)),T2(3)),puf(pufseed,Cnew(5)),t_commit,Tnew(5))"
+          },
+          "matched_requests": 4,
+          "constraint_check": {
+            "expression": "(Ci_next(3)/=Ci(2) or False) and (Ci_next(3)/=Ci(2) or False) and True",
+            "fresh_inequalities": [
+              {
+                "left": "Ci_next(3)",
+                "right": "Ci(2)",
+                "value": true
+              },
+              {
+                "left": "Ci_next(3)",
+                "right": "Ci(2)",
+                "value": true
+              }
+            ],
+            "satisfied": true
+          },
+          "scope": "One completed symbolic execution; not an attack-search result",
+          "path": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "log": "execution/spaka_local_auth_key_update_trace_0_0_0_1_0_0_0.txt",
+          "log_sha256": "ebaa9ca2125277d1befe32bd7ea084170d5db37232521a97f00dafb18a600a51"
+        }
+      }
+    },
+    "spaka_cross_region": {
+      "source": "models/spaka_cross_region.hlpsl",
+      "source_sha256": "1aae72935177494f339f33f8152427eeb8d81d9e61ec546646af71fc286c18dc",
+      "expected_audit_result": "SAFE",
+      "checks": {
+        "ofmc": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/ofmc/ofmc",
+            "--classic",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_cross_region.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.027,
+          "log": "results/spaka_cross_region_ofmc.txt",
+          "sha256": "821db304697b49ba84af91c013e02c1b451fa1a161d3f407073f063e386b1eb8",
+          "summary": "SAFE"
+        },
+        "ofmc2024": {
+          "command": [
+            "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+            "--classic",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_cross_region.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.025,
+          "log": "results/spaka_cross_region_ofmc2024.txt",
+          "sha256": "12f57bb73089c7a73713bea7758c79310d14a1e9ccbe7d70bea1341bbf47259c",
+          "summary": "NO_ATTACK_FOUND"
+        },
+        "clatse": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_cross_region.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.016,
+          "log": "results/spaka_cross_region_clatse.txt",
+          "sha256": "8a354d475b819d52f1a81dcc40d4920d4a9bcdf680ff7578354eb55c533607d3",
+          "summary": "SAFE"
+        },
+        "clatse_noopt": {
+          "command": [
+            "/home/runner/work/_temp/spaka-avispa/span/bin/backends/cl/cl-atse",
+            "-noopt",
+            "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_cross_region.if"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.019,
+          "log": "results/spaka_cross_region_clatse_noopt.txt",
+          "sha256": "d54b2ff3eaa5ff503836e59f8985f3d2d85ce053daf05c22bd371736e541e998",
+          "summary": "SAFE"
+        }
+      },
+      "declared_goals_preserved": true,
+      "declared_goals": [
+        "secrecy_of sec_cross_key",
+        "secrecy_of sec_p1",
+        "secrecy_of sec_p2",
+        "authentication_on cross_atai_auth",
+        "authentication_on cross_cv_auth"
+      ],
+      "translation": {
+        "command": [
+          "/home/runner/work/_temp/spaka-avispa/span/bin/translator/hlpsl2if",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/models/spaka_cross_region.hlpsl"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.011,
+        "log": "results/spaka_cross_region_hlpsl2if.txt",
+        "sha256": "c793895c57717332fde0c5396da52fac08c4f5f12cbccee14132c801fce28e72",
+        "summary": null
+      },
+      "if_sha256": "11a79b3197deb72465663ce4e854e19a7d580046036c56dd8c8d84ceb421052e",
+      "model_correction_checks": {
+        "protected_confirmation_receive": true,
+        "derived_symmetric_key_send": true
+      },
+      "adapter": {
+        "command": [
+          "/usr/bin/python3",
+          "/home/runner/work/AVISPA/AVISPA/scripts/adapt_ofmc_if.py",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/if/spaka_cross_region.if",
+          "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_cross_region.if"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.031,
+        "log": "results/spaka_cross_region_adapter.txt",
+        "sha256": "b82b21ee4080e818cbd79a683992c02bcc03b10c19c83311b4ec4e44d54b07e3",
+        "summary": null
+      },
+      "ofmc_if_sha256": "61a3aac56e4d9016bb05535308cd4d074061292b3326e260685952fb3be4e787",
+      "execution": {
+        "attempts": [
+          {
+            "path": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "command": [
+              "/home/runner/work/_temp/spaka-ofmc2024/ofmc2024/executables/linux/ofmc",
+              "--classic",
+              "--trace",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "/home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_cross_region.if"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "seconds": 0.02,
+            "log": "execution/spaka_cross_region_trace_0_0_0_0_0_0_0_0.txt",
+            "sha256": "4a33e78c9570be4531ffaa095c15edc8f74f453e42a9a34cea4e8007b5dc926e",
+            "summary": "INCONCLUSIVE"
+          }
+        ],
+        "completed": {
+          "terminal_states": {
+            "state_cross_cv": "2",
+            "state_cross_atai": "3",
+            "state_cross_ta": "2",
+            "state_cross_ataj": "1"
+          },
+          "equal_keys": {
+            "SK_cv": "h(h(idvcv,puf(pufseed,C1(4)),T6(4)),h(idvcv,puf(pufseed,C2(4)),T6(4)),T8(6))"
+          },
+          "matched_requests": 2,
+          "constraint_check": {
+            "expression": "True",
+            "fresh_inequalities": [],
+            "satisfied": true
+          },
+          "scope": "One completed symbolic execution; not an attack-search result",
+          "path": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "log": "execution/spaka_cross_region_trace_0_0_0_0_0_0_0_0.txt",
+          "log_sha256": "4a33e78c9570be4531ffaa095c15edc8f74f453e42a9a34cea4e8007b5dc926e"
+        }
+      }
+    }
+  },
+  "interpretation": "SAFE applies to the declared security goals of these two models in the stated bounded-session setting.",
+  "verification_source_sha256": {
+    "models/spaka_cross_region.hlpsl": "1aae72935177494f339f33f8152427eeb8d81d9e61ec546646af71fc286c18dc",
+    "models/spaka_local_auth_key_update.hlpsl": "faae83838e360481f8b581392f64f6bb373235355c1ab120e4f38316e8c13df0",
+    "scripts/adapt_ofmc_if.py": "d9ea0e20507ee650fa722ad6144af1d18ddddcca1b5a8e27acdc690e99983211",
+    "scripts/run_avispa.sh": "879f9f2bc0af3eaf0ad1e013e86d47b2d7ffb21f5ba56d042f87cec0eab38b19",
+    "scripts/setup-linux-runtime.sh": "320b9573f23b8a2aecc6c0fdcee6dacb59640a79b21a0c6c46f5b3bb3d72cbdb",
+    "scripts/setup-ofmc2024.sh": "de8161f619ec7db3b35eb9096a36a5e22630ba8e9acd34087411b380180248b2",
+    "scripts/verify_models.py": "75918f763bf126e774da7286d812b1fc746aac1169171547392e0c602256b50d",
+    "docs/declared_goals.json": "b98008e7e2b9f1dadebaf4efb3750e66a7b3e7014dc4835c1f97466aaab48419"
+  },
+  "validation_failures": [],
+  "capture_complete": true
+}

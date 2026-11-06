@@ -1,0 +1,17 @@
+Open-Source Fixedpoint Model-Checker version 2024
+INPUT:
+   /home/runner/work/AVISPA/AVISPA/validation-output/ofmc_if/spaka_local_auth_key_update.if
+SUMMARY:
+  NO_ATTACK_FOUND
+GOAL:
+  as specified
+DETAILS:
+  BOUNDED_NUMBER_OF_SESSIONS
+BACKEND:
+  Open-Source Fixedpoint Model-Checker version 2024
+STATISTICS:
+  TIME 31 ms
+  parseTime 0 ms
+  visitedNodes: 17 nodes
+  depth: 8 plies
+
